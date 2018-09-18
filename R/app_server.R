@@ -61,10 +61,6 @@ app_server <- function(input, output, session) {
     r$index$path <- getOption("bkyrd")
   }, once = TRUE)
 
-  observe({
-    cat(r$index$path)
-  })
-
   observeEvent(r$index$path, {
     if (is.na(r$index$path)) {
       showModal(opening())
