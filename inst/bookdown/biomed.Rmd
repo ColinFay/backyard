@@ -1,0 +1,216 @@
+# BMC Journals Data {#biomed}
+
+```{r setup, message = FALSE}
+library(stringr)
+```
+
+## Introduction
+
+In this example we will work analyzing some text data. We will analyze an old catalog of journals from the _BioMed Central_ (BMC), a scientific publisher that specializes in open access journal publication. You can find more informaiton of BMC at: [https://www.biomedcentral.com/journals](https://www.biomedcentral.com/journals)
+
+The data with the journal catalog is no longer available at BioMed's website, but you can find a copy in the book's github repository:
+
+[https://raw.githubusercontent.com/gastonstat/r4strings/master/data/biomedcentral.txt](https://raw.githubusercontent.com/gastonstat/r4strings/master/data/biomedcentral.txt)
+
+To download a copy of the text file to your working directory, run the following code:
+
+```{r eval = FALSE}
+# download file
+github <- "https://raw.githubusercontent.com/gastonstat/r4strings"
+textfile <- "/master/data/biomedcentral.txt"
+download.file(url = paste0(github, textfile), destfile = "biomedcentral.txt")
+```
+
+```{r read_biomed, echo=FALSE}
+# read file
+biomed <- read.table("data/biomedcentral.txt", header=TRUE, stringsAsFactors=FALSE)
+```
+
+To import the data in R you can read the file with `read.table()`:
+
+```{r BMCcatalog, eval=FALSE}
+# read data (stringsAsFactors=FALSE)
+biomed <- read.table('biomedcentral.txt', header = TRUE, stringsAsFactors = FALSE)
+```
+
+You can check the structure of the data with the function `str()`:
+
+```{r biomedstr}
+# structure of the dataset
+utils::str(biomed, vec.len = 1)
+```
+
+As you can see, the data frame `biomed` has `r nrow(biomed)` observations and `r ncol(biomed)` variables. Actually, all the variables except for `Start.Date` are in character mode.
+
+
+## Analyzing Journal Names
+
+We will do a simple analysis of the journal names. The goal is to study what are the more common terms used in the title of the journals. We are going to keep things at a basic level but for a more formal (and sophisticated) analysis you can check the package `tm` ---text mining--- (by Ingo Feinerer). 
+
+To have a better idea of what the data looks like, let's check the first journal names.
+
+```{r journalnames}
+# first 5 journal names
+head(biomed$Journal.name, n = 5)
+```
+
+As you can tell, the fifth journal `"Addiction Science & Clinical Practice"` has an ampersand `&` symbol. Whether to keep the ampersand and other punctutation symbols depends on the objectives of the analysis. In our case, we will remove those elements.
+
+
+### Preprocessing
+
+The preprocessing steps implies to get rid of the punctuation symbols. For convenience, I recommended that you start working with a small subset of the data. In this way you can experiment at a small scale until we are confident with the right manipulations. Let's take the first 10 journals:
+
+```{r titles10}
+# get first 10 names
+titles10a <- biomed$Journal.name[1:10]
+titles10a
+```
+
+We want to get rid of the ampersand signs `&`, as well as other punctuation marks. This can be done with `str_replace_all()` and replacing the pattern `[[:punct:]]` with empty strings `""` (don't forget to load the `"stringr"` package)
+
+```{r rm-punct-titles10}
+# remove punctuation
+titles10b <- str_replace_all(titles10a, pattern = "[[:punct:]]", "")
+titles10b
+```
+
+We succesfully replaced the punctuation symbols with empty strings, but now we have extra whitespaces. To remove the whitespaces we will use again `str_replace_all()` to replace any one or more whitespaces   
+`\\s+` with a single blank space `" "`.
+
+```{r trim-titles10}
+# trim extra whitespaces
+titles10c <- str_replace_all(titles10b, pattern = "\\s+", " ")
+titles10c
+```
+
+
+Once we have a better idea of how to preprocess the journal names, we can proceed with all the 336 titles.
+
+```{r}
+# remove punctuation symbols
+all_titles <- str_replace_all(biomed$Journal.name, pattern = "[[:punct:]]", "")
+
+# trim extra whitespaces
+all_titles <- str_replace_all(all_titles, pattern = "\\s+", " ")
+```
+
+The next step is to split up the titles into its different terms (the output is a list).  
+
+```{r}
+# split titles by words
+all_titles_list <- str_split(all_titles, pattern = " ")
+
+# show first 2 elements
+all_titles_list[1:2]
+```
+
+
+## Summary statistics
+
+So far we have a list that contains the words of each journal name. Wouldn't be interesting to know more about the distribution of the number of terms in each title? This means that we need to calculate how many words are in each title. To get these numbers let's use `length()` within `sapply()`; and then let's tabulate the obtained frequencies:
+
+```{r}
+# how many words per title
+words_per_title <- sapply(all_titles_list, length)
+
+# table of frequencies
+table(words_per_title)
+```
+
+We can also express the distribution as percentages, and we can get some summary statistics with `summary()`
+
+```{r}
+# distribution
+100 * round(table(words_per_title) / length(words_per_title), 4)
+
+# summary
+summary(words_per_title)
+```
+
+Looking at summary statistics we can say that around 30% of journal names have 2 words. Likewise, the median number of words per title is 3 words. 
+
+Interestingly the maximum value is 9 words. What is the journal with 9 terms in its title? We can find the longest journal name as follows:
+
+```{r}
+# longest journal
+all_titles[which(words_per_title == 9)]
+```
+
+
+## Common words
+
+Remember that our main goal with this example is to find out what words are the most common in the journal titles. To answer this question we first need to create something like a _dictionary_ of words. How do get such dictionary? Easy, we just have to obtain a vector containing all the words in the titles:
+
+```{r}
+# vector of words in titles
+title_words <- unlist(all_titles_list)
+
+# get unique words
+unique_words <- unique(title_words)
+
+# how many unique words in total
+num_unique_words <- length(unique(title_words))
+num_unique_words
+```
+
+Applying `unique()` to the vector `title_words` we get the desired dictionary of terms, which has a total of `r num_unique_words` words.
+
+Once we have the unique words, we need to count how many times each of them appears in the titles. Here's a way to do that:
+
+```{r}
+# vector to store counts
+count_words <- rep(0, num_unique_words)
+
+# count number of occurrences
+for (i in 1:num_unique_words) {
+  count_words[i] <- sum(title_words == unique_words[i])
+}
+```
+
+An alternative simpler way to count the number of word occurrences is by using the `table()` function on `title\_words`:
+
+```{r}
+# table with word frequencies
+count_words_alt <- table(title_words)
+```
+
+In any of both cases (`count_words` or `count_words_alt`), we can examine the obtained frequencies with a simple table:
+
+```{r}
+# table of frequencies
+table(count_words)
+
+# equivalently
+table(count_words_alt)
+```
+
+
+## The top 30 words
+
+For illustration purposes let's examine which are the top 30 common words.
+
+```{r}
+# index values in decreasing order
+top_30_order <- order(count_words, decreasing=TRUE)[1:30]
+
+# top 30 frequencies
+top_30_freqs <- sort(count_words, decreasing=TRUE)[1:30]
+
+# select top 30 words
+top_30_words <- unique_words[top_30_order]
+top_30_words
+```
+
+To visualize the `top_30_words` we can plot them with a barchart using `barplot()`:
+
+```{r top30barplot, echo=c(-1,-4)}
+op <- par(mar = c(6.5, 3, 2, 2))
+# barplot
+barplot(top_30_freqs, 
+        border = NA, 
+        names.arg = top_30_words, 
+        las = 2, 
+        ylim = c(0,100))
+par(op)
+```

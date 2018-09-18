@@ -1,0 +1,34 @@
+Package: backyard
+Title: A Web App for Easier Bookdown Collaboration
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Colin",
+           family = "Fay",
+           role = c("cre", "aut"),
+           email = "contact@colinfay.me")
+Description: Make Bookdown collaboration just a little bit easier with `backyard`, a visual backend for Bookkdown.
+License: MIT + file LICENSE
+URL: https://github.com/ColinFay/backyard
+BugReports: https://github.com/ColinFay/backyard/issues
+Depends: 
+    R (>= 3.4.3)
+Imports: 
+    DT,
+    glue,
+    graphics,
+    shiny,
+    shinyFiles,
+    stats,
+    yaml,
+    shinyalert,
+    withr,
+    bookdown
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0

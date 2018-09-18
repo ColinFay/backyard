@@ -1,0 +1,428 @@
+# Stringr Basics
+
+
+## Introduction
+
+So far we've seen the various functions R provides to perform basic string 
+processing and manipulations of `"character"` data. Most of the times these 
+functions are enough and they will allow you to get your job done. However, 
+they have some drawbacks. For instance, consider the following example:
+
+```{r ugly_nchar}
+# some text vector
+text <- c("one", "two", "three", NA, "five")
+
+# how many characters in each string?
+nchar(text)
+```
+
+As you can tell, `nchar()` gives `NA` a value of 2, as if it were a string 
+formed by two characters. Perhaps this may be acceptable in some cases, but 
+taking into account all the operations in R, it would be better to leave `NA` 
+as a missing value, instead of treating it as a string of two characters.
+
+Another awkward example can be found with `paste()`. The default separator is 
+a blank space, which more often than not is what you want to use. But that's 
+secondary. The really annoying thing is when you want to paste things that 
+include zero length arguments (e.g. `NULL`, `character(0)`). How does `paste()` 
+behave in those cases? See below:  
+
+```{r paste_berkeley_ex, tidy=FALSE}
+# this works fine
+paste("University", "of", "California", "Berkeley")
+
+# this works fine too
+paste("University", "of", "California", "Berkeley")
+
+# this is weird
+paste("University", "of", "California", "Berkeley", NULL)
+
+# this is ugly
+paste("University", "of", "California", "Berkeley", NULL, character(0), 
+      "Go Bears!")
+```
+
+Notice the output from the last example (the _ugly_ one). The objects `NULL` 
+and `character(0)` have zero length, yet when included inside `paste()` they 
+are treated as an empty string `""`. Wouldn't be good if `paste()` removed 
+zero length arguments? Sadly, there's nothing we can do to change `nchar()` and 
+`paste()`. But fear not. There is a very nice package that solves these 
+problems and provides several functions for carrying out consistent string 
+processing.
+
+
+
+## Package `stringr`
+
+Thanks to Hadley Wickham, we have the package `stringr` that adds more 
+functionality to the base functions for handling strings in R. 
+
+[http://cran.r-project.org/web/packages/stringr/index.html](http://cran.r-project.org/web/packages/stringr/index.html)
+
+According to the description of the package:
+
+> "is a set of simple wrappers that make R's string functions more consistent, 
+> simpler and easier to use. It does this by ensuring that: function and 
+> argument names (and positions) are consistent, all functions deal with NA's 
+> and zero length character appropriately, and the output data structures from 
+> each function matches the input data structures of other functions."
+
+To install `"stringr"` use the function `install.packages()`. Once installed, 
+load it to your current session with `library()`:
+
+```{r install_stringr, message=FALSE, eval=FALSE}
+# installing 'stringr'
+install.packages("stringr")
+
+# load 'stringr'
+library(stringr)
+```
+
+```{r load_stringr, echo=FALSE}
+library(stringr)
+```
+
+
+## Basic String Operations
+
+`"stringr"` provides functions for both 1) basic manipulations and 2) for 
+regular expression operations. In this chapter we cover those functions that 
+have to do with basic manipulations. 
+
+The following table contains the `stringr` functions for basic string operations:
+
+| Function       | Description                             | Similar to    |
+|:---------------|:----------------------------------------|:--------------|
+| `str_c()`      | string concatenation                    | `paste()`     |
+| `str_length()` | number of characters                    | `nchar()`     |
+| `str_sub()`    | extracts substrings                     | `substring()` |
+| `str_dup()`    | duplicates characters                   | _none_        |
+| `str_trim()`   | removes leading and trailing whitespace | _none_        |
+| `str_pad()`    | pads a string                           | _none_        |
+| `str_wrap()`   | wraps a string paragraph                | `strwrap()`   |
+| `str_trim()`   | trims a string                          | _none_        |
+
+
+Notice that all functions in `stringr` start with `"str_"` followed by a term 
+associated to the task they perform. For example, `str_length()` gives you the 
+number (i.e. length) of characters in a string. In addition, some functions are 
+designed to provide a better alternative to already existing functions. This is 
+the case of `str_length()` which is intended to be a substitute of `nchar()`. 
+Other functions, however, don't have a corresponding alternative such as 
+`str_dup()` which allows you to duplicate characters.
+
+
+### Concatenating with `str_c()`
+
+Let's begin with `str_c()`. This function is equivalent to `paste()` but 
+instead of using the white space as the default separator, `str_c()` uses the 
+empty string `""` which is a more common separator when _pasting_ strings:
+
+```{r str_c_ex}
+# default usage
+str_c("May", "The", "Force", "Be", "With", "You")
+
+# removing zero length objects
+str_c("May", "The", "Force", NULL, "Be", "With", "You", character(0))
+```
+
+Observe another major difference between `str_c()` and `paste()`: zero length 
+arguments like `NULL` and `character(0)` are silently removed by `str_c()`. 
+
+If you want to change the default separator, you can do that as usual by 
+specifying the argument `sep`:
+
+```{r str_join}
+# changing separator
+str_c("May", "The", "Force", "Be", "With", "You", sep = "_")
+```
+
+
+
+### Number of characters with `str_length()`
+
+As we've mentioned before, the function `str_length()` is equivalent to 
+`nchar()`. Both functions return the number of characters in a string, that is, 
+the _length_ of a string (do not confuse it with the `length()` of a vector). 
+Compared to `nchar()`, `str_length()` has a more consistent behavior when 
+dealing with `NA` values. Instead of giving `NA` a length of 2, `str_length()` 
+preserves missing values just as `NA`s.
+
+```{r str_length_ex}
+# some text (NA included)
+some_text <- c("one", "two", "three", NA, "five")
+
+# compare 'str_length' with 'nchar'
+nchar(some_text)
+str_length(some_text)
+```
+
+In addition, `str_length()` has the nice feature that it converts factors to 
+characters, something that `nchar()` is not able to handle:
+
+```{r str_length_with_factors}
+some_factor <- factor(c(1,1,1,2,2,2), labels = c("good", "bad"))
+some_factor
+
+# try 'nchar' on a factor
+nchar(some_factor)
+
+# now compare it with 'str_length'
+str_length(some_factor)
+```
+
+
+### Substring with `str_sub()`
+
+To extract substrings from a character vector `stringr` provides `str_sub()` 
+which is equivalent to `substring()`. The function `str_sub()` has the 
+following usage form:
+
+```
+str_sub(string, start = 1L, end = -1L)
+```
+
+The three arguments in the function are: a `string` vector, a `start` value 
+indicating the position of the first character in substring, and an `end` value 
+indicating the position of the last character. Here's a simple example with a 
+single string in which characters from 1 to 5 are extracted:
+
+```{r str_sub_ex1}
+lorem <- "Lorem Ipsum"
+
+# apply 'str_sub'
+str_sub(lorem, start = 1, end = 5)
+
+# equivalent to 'substring'
+substring(lorem, first = 1, last = 5)
+
+# another example
+str_sub("adios", 1:3)
+```
+
+An interesting feature of `str_sub()` is its ability to work with negative 
+indices in the `start` and `end` positions. When we use a negative position, `str_sub()` counts backwards from last character: 
+
+```{r str_sub_ex2}
+resto = c("brasserie", "bistrot", "creperie", "bouchon")
+
+# 'str_sub' with negative positions
+str_sub(resto, start = -4, end = -1)
+
+# compared to substring (useless)
+substring(resto, first = -4, last = -1)
+```
+
+Similar to `substring()`, we can also give `str_sub()` a set of positions which 
+will be recycled over the string. But even better, we can give `str_sub()` 
+a negative sequence, something that `substring()` ignores:
+
+```{r str_sub_ex3}
+# extracting sequentially
+str_sub(lorem, seq_len(nchar(lorem)))
+substring(lorem, seq_len(nchar(lorem)))
+
+# reverse substrings with negative positions
+str_sub(lorem, -seq_len(nchar(lorem)))
+substring(lorem, -seq_len(nchar(lorem)))
+```
+
+We can use `str_sub()` not only for extracting subtrings but also for replacing
+substrings:
+
+```{r str_sub_ex4}
+# replacing 'Lorem' with 'Nullam'
+lorem <- "Lorem Ipsum"
+str_sub(lorem, 1, 5) <- "Nullam"
+lorem
+
+# replacing with negative positions
+lorem <- "Lorem Ipsum"
+str_sub(lorem, -1) <- "Nullam"
+lorem
+
+# multiple replacements 
+lorem <- "Lorem Ipsum"
+str_sub(lorem, c(1,7), c(5,8)) <- c("Nullam", "Enim")
+lorem
+```
+
+
+### Duplication with `str_dup()`
+
+A common operation when handling characters is _duplication_. The problem is 
+that R doesn't have a specific function for that purpose. But `stringr` does: `str_dup()` duplicates and concatenates strings within a character vector. 
+Its usage requires two arguments:
+
+```
+str_dup(string, times)
+```
+
+The first input is the `string` that you want to dplicate. The second input, 
+`times`, is the number of times to duplicate each string:
+
+```{r str_dup_ex}
+# default usage
+str_dup("hola", 3)
+
+# use with differetn 'times'
+str_dup("adios", 1:3)
+
+# use with a string vector
+words <- c("lorem", "ipsum", "dolor", "sit", "amet")
+str_dup(words, 2)
+
+str_dup(words, 1:5)
+```
+
+
+### Padding with `str_pad()`
+
+Another handy function that we can find in `stringr` is `str_pad()` for 
+_padding_ a string. Its default usage has the following form:
+
+```
+str_pad(string, width, side = "left", pad = " ")
+```
+
+The idea of `str_pad()` is to take a string and pad it with leading or trailing 
+characters to a specified total `width`. The default padding character is a 
+space (`pad = " "`), and consequently the returned string will appear to be 
+either left-aligned (`side = "left"`), right-aligned (`side = "right"`), or 
+both (`side = "both"`). 
+
+Let's see some examples:
+
+```{r str_pad_ex}
+# default usage
+str_pad("hola", width = 7)
+
+# pad both sides
+str_pad("adios", width = 7, side = "both")
+
+# left padding with '#'
+str_pad("hashtag", width = 8, pad = "#")
+
+# pad both sides with '-'
+str_pad("hashtag", width = 9, side = "both", pad = "-")
+```
+
+
+### Wrapping with `str_wrap()`
+
+The function `str_wrap()` is equivalent to `strwrap()` which can be used to 
+_wrap_ a string to format paragraphs. The idea of wrapping a (long) string is 
+to first split it into paragraphs according to the given `width`, and then add 
+the specified indentation in each line (first line with `indent`, following 
+lines with `exdent`). Its default usage has the following form:
+
+```
+str_wrap(string, width = 80, indent = 0, exdent = 0)
+```
+
+For instance, consider the following quote (from Douglas Adams) converted into 
+a  paragraph:
+
+```{r douglas_adams, tidy=FALSE}
+# quote (by Douglas Adams)
+some_quote <- c(
+  "I may not have gone",
+  "where I intended to go,", 
+  "but I think I have ended up",
+  "where I needed to be")
+
+# some_quote in a single paragraph
+some_quote <- paste(some_quote, collapse = " ")
+```
+
+Now, say you want to display the text of `some_quote` within some pre-specified 
+column width (e.g. width of 30). You can achieve this by applying `str_wrap()` 
+and setting the argument `width = 30`
+
+```{r str_wrap_ex1, tidy=FALSE}
+# display paragraph with width=30
+cat(str_wrap(some_quote, width = 30))
+```
+
+Besides displaying a (long) paragraph into several lines, you may also wish to 
+add some indentation. Here's how you can indent the first line, as well as the 
+following lines: 
+
+```{r str_wrap_ex2, tidy=FALSE}
+# display paragraph with first line indentation of 2
+cat(str_wrap(some_quote, width = 30, indent = 2), "\n")
+
+# display paragraph with following lines indentation of 3
+cat(str_wrap(some_quote, width = 30, exdent = 3), "\n")
+```
+
+
+
+### Trimming with `str_trim()`
+
+One of the typical tasks of string processing is that of parsing a text into 
+individual words. Usually, you end up with words that have blank spaces, called _whitespaces_, on either end of the word. In this situation, you can use the 
+`str_trim()` function to remove any number of whitespaces at the ends of a 
+string. Its usage requires only two arguments:
+
+```
+str_trim(string, side = "both")
+```
+
+The first input is the `string` to be strimmed, and the second input indicates 
+the `side` on which the whitespace will be removed.
+
+Consider the following vector of strings, some of which have whitespaces either 
+on the left, on the right, or on both sides. Here's what `str_trim()` would do 
+to them under different settings of `side`
+
+```{r steal, tidy=FALSE}
+# text with whitespaces
+bad_text <- c("This", " example ", "has several   ", "   whitespaces ")
+
+# remove whitespaces on the left side
+str_trim(bad_text, side = "left")
+
+# remove whitespaces on the right side
+str_trim(bad_text, side = "right")
+
+# remove whitespaces on both sides
+str_trim(bad_text, side = "both")
+```
+
+
+### Word extraction with `word()`
+
+We end this chapter describing the `word()` function that is designed to 
+extract words from a sentence:
+
+```
+word(string, start = 1L, end = start, sep = fixed(" "))
+```
+
+The way in which you use `word()` is by passing it a `string`, together with a 
+`start` position of the first word to extract, and an `end` position of the 
+last word to extract. By default, the separator `sep` used between words is a 
+single space.
+
+Let's see some examples:
+
+```{r word_ex}
+# some sentence
+change <- c("Be the change", "you want to be")
+
+# extract first word
+word(change, 1)
+
+# extract second word
+word(change, 2)
+
+# extract last word
+word(change, -1)
+
+# extract all but the first words
+word(change, 2, -1)
+```
+
+`stringr` has more functions but we'll discuss them in the chapters about 
+[regular expressions](#regex1).

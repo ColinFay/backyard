@@ -1,0 +1,16 @@
+# Repetition Patterns {#repetion}
+
+## Introduction
+
+In this chapter, you will learn how to use _repetition metacharacters_ to gain more 
+matching power in your regular expressions. We're going to start by looking at 
+the three main metacharacters: the star---or asterisk--- `*`, the plus `+`, and 
+the question mark `?`. Each one of these metacharacters has an effect on the item 
+that immediately precedes it. That item could be a literal character, it could be 
+a character set, or it could be a more complicated expression; a repetition 
+metacharacter takes that preceding item and determines how many times that item 
+can be repeated. In the case of the asterisk `*`, that item can be there 0 or 
+more times; in the case of the plus `+`, it would be there one or more times; 
+and with the question mark `?`, the item would just be there 0 time or one time.
+
+

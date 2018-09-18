@@ -1,0 +1,28 @@
+html_to_markdown <- function(res){
+  # plop <- res
+  # res <- plop
+  res <- gsub("<\\/*p>", "\n", res)
+  res <- gsub("<\\/*strong>", "**", res)
+  res <- gsub("<\\/*em>", "*", res)
+  res <- gsub('<a href="(.*)" [^>]*>(.*)<\\/a>', "![\\2](\\1)", res)
+  res <- gsub("<\\/*p>", "\n", res)
+  res <- gsub("<\\/*div>", "\n", res)
+  res <- gsub("<h1>", "# ", res)
+  res <- gsub("<\\/h1>", "\n", res)
+  res <- gsub("<h2>", "## ", res)
+  res <- gsub("<\\/h2>", "\n", res)
+  res <- gsub("<h3>", "### ", res)
+  res <- gsub("<\\/h3>", "\n", res)
+  res <- gsub("<h4>", "#### ", res)
+  res <- gsub("<\\/h4>", "\n", res)
+  res <- gsub("<h5>", "##### ", res)
+  res <- gsub("<\\/h5>", "\n", res)
+  res <- gsub("<h6>", "###### ", res)
+  res <- gsub("<\\/h6>", "\n", res)
+  res <- gsub('(<pre[^>]*>)(<span[^>]*>)(.[^<]*)(<\\/span>)(<\\/pre>)', "\\2\\1\\3\\5\\4", res)
+  res <- gsub('<pre><code class="([^"]*)">', "\n```{\\1}\n", res)
+  res <- gsub('<pre>', "\n```{r}\n", res)
+  res <- gsub("<\\/code><\\/pre>", "\n```\n", res)
+  res <- gsub("\n{2,}", "\n\n", res)
+  res
+}

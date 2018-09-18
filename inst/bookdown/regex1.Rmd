@@ -1,0 +1,325 @@
+# (PART) Regex {-}
+
+# Regular Expressions {#regex1}
+
+## Introduction
+
+So far you have learned some basic and intermediate functions for handling and 
+working with text in R. These are very useful functions and they allow you 
+to do many interesting things. However, if you truly want to unleash the power 
+of strings manipulation, you need to take things to the next level and learn 
+about _regular expressions_.
+
+
+## What are Regular Expressions?
+
+The name "Regular Expression" does not say much. However, regular 
+expressions are all about text. Think about how much text is all around 
+you in our modern digital world: email, text messages, news articles, blogs, 
+computer code, contacts in your address book---all these things are text. 
+Regular expressions are a tool that allows us to work with these text by 
+describing text patterns.
+
+A __regular expression__ is a special text string for describing a certain 
+amount of text. This "certain amount of text" receives the formal name of 
+_pattern_. In other words, a regular expression is a set of symbols that 
+describes a text pattern. More formally we say that a regular expression is a 
+_pattern that describes a set of strings_. In addition to this first 
+meaning, the term regular expression can also be used in a slightly different 
+but related way: as the formal language of these symbols that needs 
+to be interpreted by a regular expression processor.
+Because the term "regular expression" is rather long, most people 
+use the word __regex__ as a shortcut term. And you will even find the 
+plural _regexes_.
+
+It is also worth noting what regular expressions are not. They're not a 
+programming language. They may look like some sort of programming language
+because they are a formal language with a defined set of rules that gets a 
+computer to do what we want it to do. However, there are no variables in regex
+and you can't do computations like adding 1 + 1. 
+
+
+### What are Regular Expressions used for?
+
+We use regular expressions to work with text. Some of its common uses involve
+testing if a phone number has the correct number of digits, if a date follows a 
+specifc format (e.g. mm/dd/yy), if an email address is in a valid format, or if 
+a password has numbers and special characters. You could also use regular 
+expressions to search a document for _gray_ spelt either as "gray" or 
+"grey". You could search a document and replace all occurrences of "Will", "Bill", 
+or "W." with William. Or you could count the number of times in a document 
+that the word "analysis" is immediately preceded by the words "data", 
+"computer" or "statistical" only in those cases. You could use it to 
+convert a comma-delimited file into a tab-delimited file or to find duplicate 
+words in a text. 
+
+In each of these cases, you are going to use a regular expression to write up a 
+description of what you are looking for using symbols. In the case of a phone 
+number, that pattern might be three digits followed by a dash, followed by three 
+digits and another dash, followed by four digits. Once you have defined a 
+pattern then the regex processor will use our description to return matching 
+results, or in the case of the test, to return true or false for whether or not 
+it matched.
+
+
+### A word of caution about regex
+
+If you have never used regular expressions before, their syntax may seem a bit
+scary and cryptic. You will see strings formed by a bunch of letters, digits, 
+and other punctuation symbols combined in seemingly nonsensical ways. As with
+any other topic that has to do with programming and data analysis, learning
+the principles of regex and becoming fluent in defining regex patterns takes
+time and requires a lot of practice. The more you use them, the better you
+will become at defining more complex patterns and getting the most out of them.
+
+Regular Expressions is a wide topic and there are books entirely dedicated to
+this subject. The material offered in this book is not extensive and there are
+many subtopics that I don't cover here. Despite the initial barriers that you
+may encounter when entering the regex world, the pain and frustration of 
+learning this tool will payoff in your data science career.
+
+
+### Regular Expressions in R
+
+Tools for working with regular expressions can be found in virtually all 
+scripting languages (e.g. Perl, Python, Java, Ruby, etc). R has some 
+functions for working with regular expressions but it does not provide 
+the wide range of capabilities that other scripting languages do. Nevertheless, 
+they can take you very far with some workarounds (and a bit of patience).
+
+One of the best tools you must have in your toolkit is the R package `"stringr"`
+(by Hadley Wickham). It provides functions that have similar behavior to 
+those of the base distribution in R. But it also provides many more facilities
+for working with regular expressions.
+
+
+## Regex Basics
+
+The main purpose of working with regular expressions is to describe patterns 
+that are used to match against text strings. Simply put, working with regular 
+expressions is nothing more than __pattern matching__. The result of a match 
+is either successful or not.
+
+The simplest version of pattern matching is to search for one occurrence (or 
+all occurrences) of some specific characters in a string. For example, we might 
+want to search for the word `"programming"` in a large text document, or we 
+might want to search for all occurrences of the string `"apply"` in a series 
+of files containing R scripts.
+
+Typically, regular expression patterns consist of a combination of alphanumeric 
+characters as well as special characters. A regex pattern can be as simple as a 
+single character, or it can be formed by several characters with a more complex 
+structure. In all cases we construct regular expressions much in the same form 
+in which we construct arithmetic expressions, by using various operators to 
+combine smaller expressions. 
+
+
+## Matching Literal Characters
+
+We're going to start with the simplest match of all: a literal character.
+A literal character match is one in which a given character such as the letter
+`"R"` matches the letter _R_. This type of match is the most basic 
+type of regular expression operation: just matching plain text.
+
+The following examples are extremely basic but they will help you get a 
+good understanding of regex.
+
+Consider the following text stored in a character vector `this_book`:
+
+```{r book}
+this_book <- 'This book is mine'
+```
+
+The first regular expression we are going to work with is `"book"`. 
+This pattern is formed by a letter _b_, followed by a letter _o_, followed by 
+another letter _o_, followed by a letter _k_. As you may guess, this pattern 
+matches the word _book_ in the character vector `this_book`. 
+To have a visual representation of the actual pattern that is matched, you
+should use the function `str_view()` from the package `"stringr"` 
+(you may need to upgrade to a recent version of RStudio):
+
+```{r eval = FALSE}
+str_view(this_book, 'book')
+```
+
+As you can tell, the pattern `"book"` doesn't match the entire content in
+the vector `this_book`; it just matches those four letters.
+
+It may seem really simple but there are a couple of details to be highlighted.
+The first is that regex searches are case sensitive by default. This means 
+that the pattern `"Book"` would not match _book_ in ``this_book``.
+
+```{r eval = FALSE}
+str_view("This Book is mine.", 'book')
+```
+
+You can change the matching task so that it is case insensitive but we will
+talk about it later.
+
+Let's add more text to `this_book`:
+
+```{r book_online}
+this_book <- 'This book is mine. I wrote this book with bookdown.'
+```
+
+Let's use `str_view()` to see what pieces of text are matched in `this_book` 
+with the pattern `"book"`:
+
+```{r grep_book, eval = FALSE}
+str_view(this_book, "book")
+```
+
+As you can tell, only the first occurrence of _book_ was matched. This is
+a common behavior of regular expressions in which they return a match as fast
+possible. You can think of this behavior as the "eager principle", that is,
+regular expressions are eager and they will give preference to an early match.
+This is a minor but important detail and we will come back to this behavior of 
+regular expressions.
+
+All the letters and digits in the English alphabet are considered literal 
+characters. They are called _literal_ because they match themselves.
+
+```{r eval = FALSE}
+str_view <- c("I had 3 quesadillas for lunch", "3")
+```
+
+Here is another example:
+
+```{r}
+transport <- c("car", "bike", "boat", "airplane")
+```
+
+The first pattern to test is the letter `"a"`:
+
+```{r eval = FALSE}
+str_view(transport, "a")
+```
+
+When you execute the previous command, you should be able to see that the 
+letter `"a"` is highlighted in the words _car_, _boat_ and _airplane_.
+
+
+
+## Metacharacters
+
+The next topic that you should learn about regular expressions has to do with 
+__metacharacters__. As you just learned, the most basic type of regular 
+expressions are the literal characters which are characters that match 
+themselves. However, not all characters match themselves. Any character that 
+is not a literal character is a metacharacter. This type of characters have a 
+special meaning and they allow you to transform literal characters in very 
+powerful ways.
+
+Below is the list of metacharacters in _Extended Regular Expressions_ (EREs):
+
+```
+.   \   |   (   )   [   ]   {   }   $   -    ^   *   +   ?
+```
+
+- the dot `.`
+- the backslash `\`
+- the bar `|`
+- left or opening parenthesis `(`
+- right or closing parenthesis `)`
+- left or opening bracket `[`
+- right or closing bracket `]`
+- left or opening brace `{`
+- right or closing brace `}`
+- the dollar sign `$`
+- the dash, hyphen or minus sign `-`
+- the caret or hat `^`
+- the star or asterisk `*`
+- the plus sign `+`
+- the question mark `?`
+
+We're going to be working with these characters throughout the rest of the book. 
+Simply put, everything else that you need to know about regular expressions 
+besides literal characters is how these metacharacters work. The good news is 
+that there are only a few metacharacters to learn. The bad news is 
+that some metacharacters can have more than one meaning. And learning those 
+meanings definitely takes time and requires hours of practice. The meaning of 
+the metacharacters greatly depend on the context in which you use them,
+how you use them, and where you use them. If it wasn't enough complication, 
+it is also the metacharacters that have variation between the different 
+regex engines. 
+ 
+
+
+### The Wild Metacharacter
+
+The first metacharacter you should learn about is the dot or period `"."`, 
+better known as the __wild__ metacharacter. This metacharacter is used to
+match __ANY__ character except for a new line.
+
+For example, consider the pattern `"p.n"`, that is, _p wildcard n_. This
+pattern will match _pan_, _pen_, and _pin_, but it will not match _prun_ 
+or _plan_. The dot only matches one single character. 
+
+Let's see another example using the vector `c("not", "note", "knot", "nut")` 
+and the pattern `"n.t"`
+
+```{r eval = FALSE}
+not <- c("not", "note", "knot", "nut")
+
+str_view(not, "n.t")
+```
+
+the pattern `"n.t"` matches _not_ in the first three elements, and _nut_
+in the last element.
+
+If you specify a pattern `"no."`, then just the first three elements
+in `not` will be matched. 
+
+```{r eval = FALSE}
+str_view(not, "no.")
+```
+
+And if you define a pattern `"kn."`, then only the third element is matched.
+
+```{r eval = FALSE}
+str_view(not, "kn.")
+```
+
+The wild metacharacter is probably the most used metacharacter, and it is 
+also the most abused one, being the source of many mistakes. Here is a basic
+example with the regular expression formed by `"5.00"`. If you think that this 
+pattern will match five with two decimal places after it, you will be 
+surprised to find out that it not only matches _5.00_ but also _5100_ and _5-00_. 
+Why? Because `"."` is the metacharacter that matches absolutely anything.
+You will learn how to fix this mistake in the next section, but it illustrates 
+an important fact about regular expressions: the challenge consists of matching 
+what you want, but also in matching only what you want. You don't want to 
+specify a pattern that is overly permissive. You want to find the thing you're 
+looking for, but only that thing. 
+
+
+### Escaping metacharacters
+
+What if you just want to match the character dot? For example, say you 
+have the following vector:
+
+```{r}
+fives <- c("5.00", "5100", "5-00", "5 00")
+```
+
+If you try the pattern `"5.00"`, it will match all of the elements in `fives`.
+
+```{r eval = FALSE}
+str_view(fives, "5.00")
+```
+
+To actually match the dot character, what you need to do is __escape__ the
+metacharacter. In most languages, the way to escape a metacharacter is by 
+adding a backslash character in front of the metacharacter: `"\."`. 
+When you use a backslash in front of a metacharacter you are "escaping" the
+character, this means that the character no longer has a special meaning, 
+and it will match itself.
+
+However, R is a bit different. Instead of using a backslash you have to use
+two backslashes: `"5\\.00"`. This is because the backslash `"\"`, which is
+another metacharacter, has a special meaning in R. Therefore, to match just
+the element _5.00_ in `fives` in R, you do it like so:
+
+```{r eval = FALSE}
+str_view(fives, "5\\.00")
+```

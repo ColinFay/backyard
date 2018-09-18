@@ -1,0 +1,140 @@
+# Reversing Strings {#reversing}
+
+## Introduction
+
+Our first example has to do with reversing a character string. More precisely, the objective is to create a function that takes a string and returns it in reversed order. The trick of this exercise depends on what we understand with the term _reversing_. For some people, reversing may be understood as simply having the set of _characters_ in reverse order. For others, reversing may be understood as having a set of _words_ in reverse order. Can you see the distinction?
+
+Let's consider the following two simple strings:
+
+- `"atmosphere"`
+- `"the big bang theory"`
+
+The first string is formed by one single word (atmosphere). The second string is formed by a sentence with four words (the big bang theory). If we were to reverse both strings by characters we would get the following results:
+
+- `"erehpsomta"`
+- `"yroeht gnab gib eht"`
+
+
+Conversely, if we were to reverse the strings by words, we would obtain the following output:
+
+- `"atmosphere"`
+- `"theory bang big the"`
+
+For this example we will implement a function for each type of reversing operation.
+
+
+## Reversing Characters
+
+The first case for reversing a string is to do it by _characters_. This implies that we need to split a given string into its different characters, and then we need to concatenate them back together in reverse order. Let's try to write a first function:
+
+```{r reverse_func}
+# function that reverses a string by characters
+reverse_chars <- function(string)
+{
+  # split string by characters
+  string_split = strsplit(string, split = "")
+  # reverse order
+  rev_order = nchar(string):1
+  # reversed characters
+  reversed_chars = string_split[[1]][rev_order]
+  # collapse reversed characters
+  paste(reversed_chars, collapse = "")
+} 
+```
+
+Let's test our reversing function with a character and numeric vectors:
+
+```{r try_rev_chars}
+# try 'reverse_chars'
+reverse_chars("abcdefg")
+
+# try with non-character input
+reverse_chars(12345)
+```
+
+As you can see, `reverse_chars()` works fine when the input is in `"character"` mode. However, it complains when the input is `"non-character"`. In order to make our function more robust, we can force the input to be converted as character. The resulting code is given as:
+
+```{r reverse_chars_fun}
+# reversing a string by characters
+reverse_chars <- function(string)
+{
+  string_split = strsplit(as.character(string), split = "")
+  reversed_split = string_split[[1]][nchar(string):1]
+  paste(reversed_split, collapse = "")
+} 
+```
+
+Now if we try our modified function, we get the expected results:
+
+```{r reverse_chars_ex1}
+# example with one word
+reverse_chars("atmosphere")
+
+# example with a several words
+reverse_chars("the big bang theory")
+```
+
+Moreover, it also works with non-character input:
+
+```{r reverse_chars_ex2}
+# try 'reverse_chars'
+reverse_chars("abcdefg")
+
+# try with non-character input
+reverse_chars(12345)
+```
+
+If we want to use our function with a vector (more than one element), we can combine it with the `lapply()` function as follows:
+
+```{r reverse_chars_lapply}
+# reverse vector (by characters)
+lapply(c("the big bang theory", "atmosphere"), reverse_chars)
+```
+
+
+## Reversing Words
+
+The second type of reversing operation is to reverse a string by __words__. In this case the procedure involves splitting up a string by words, re-arrange them in reverse order, and paste them back in one sentence. Here's how we can defined our `reverse_words()` function:
+
+```{r reverse_words_fun}
+# function that reverses a string by words
+reverse_words <- function(string)
+{
+  # split string by blank spaces
+  string_split = strsplit(as.character(string), split = " ")
+  # how many split terms?
+  string_length = length(string_split[[1]])
+  # decide what to do
+  if (string_length == 1) {
+    # one word (do nothing)
+    reversed_string = string_split[[1]]
+  } else {
+    # more than one word (collapse them)
+    reversed_split = string_split[[1]][string_length:1]
+    reversed_string = paste(reversed_split, collapse = " ")
+  }
+  # output
+  return(reversed_string)
+} 
+```
+
+The first step inside `reverse_words()` is to split the `string` according to a blank space pattern `" "`. Then we are counting the number of components resulting from the splitting step. Based on this information there are two options. If there is only one word, then there is nothing to do. If we have more than one words, then we need to re-arrenge them in reverse order and collapse them in a single string.
+
+Once we have defined our function, we can try it on the two string examples to check that it works as expected:
+
+```{r reverse_words}
+# examples
+reverse_words("atmosphere")
+
+reverse_words("the big bang theory")
+```
+
+Similarly, to use our function on a vector with more than one element, we should call it within the `lapply()` function as follows:
+
+```{r reverse_words_lapply}
+# reverse vector (by words)
+lapply(c("the big bang theory", "atmosphere"), reverse_words)
+```
+
+
+

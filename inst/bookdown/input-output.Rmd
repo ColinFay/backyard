@@ -1,0 +1,187 @@
+# Input and Output
+
+
+
+## Output
+
+Some times you need to export results to a file. Typically this happens when
+you want to export a data table to a text file. R provides the functions
+`write.table()` and `write.csv()` for these purposes.
+These functions let you send a matrix or a data frame to a text file that will
+have a tabular format (i.e. rows and columns).
+
+
+### Concatenating output
+
+You can use `cat()` to concatenate and print information to a file. 
+
+To show you how to use `cat()` let's illustrate a simple example using the data 
+frame `mtcars` that comes in R.
+
+```{r eval = FALSE}
+# summary statistics of unemp
+min(mtcars$mpg)
+max(mtcars$mpg)
+median(mtcars$mpg)
+mean(mtcars$mpg)
+sd(mtcars$mpg)
+```
+
+The goal is to generate a file `mpg-statistics.txt` with the following 
+contents:
+
+```
+Miles per Gallon Statistics
+
+Minimum: 10.40
+Maximum: 33.90
+Median : 19.20
+Mean   : 20.09 
+Std Dev: 6.02
+```
+
+Here is one way to do it. First, let's assign the statistics to different
+objects:
+
+```{r}
+# summary statistics of mpg
+mpg_min <- min(mtcars$mpg)
+mpg_max <- max(mtcars$mpg)
+mpg_med <- median(mtcars$mpg)
+mpg_avg <- mean(mtcars$mpg)
+mpg_sd <- sd(mtcars$mpg)
+```
+
+After creating the objects containing the summary statistics, the next step
+is to export them to the text file `mpg-statistics.txt` via `cat()`. 
+Assuming that the output file is in your working directory, here's how you can
+send the set of strings to the text file:
+
+```{r eval = FALSE}
+# name of output file
+outfile <- "mpg-statistics.txt"
+
+# first line of the file
+cat("Miles per Gallon Statistics\n\n", file = outfile)
+
+# subsequent lines appended to the output file
+cat("Minimum:", mpg_min, "\n", file = outfile, append = TRUE)
+cat("Maximum:", mpg_max, "\n", file = outfile, append = TRUE)
+cat("Median :", mpg_med, "\n", file = outfile, append = TRUE)
+cat("Mean   :", mpg_avg, "\n", file = outfile, append = TRUE)
+cat("Std Dev:", mpg_sd, "\n", file = outfile, append = TRUE)
+```
+
+The first line exported to `mpg-statistics.txt` is a string with the title
+`"Miles per Gallon Statistics\n\n"`. Observe that we are using two new line
+characters `"\n\n"` to add some space between the title and the statistics.
+The rest of calls to `cat()` use the argument `append = TRUE` to concatenate
+the specified strings to the end of the text file without overriding the 
+existing lines.
+
+If you run the code of this example and look at the contents of 
+`mpg-statistics.txt`, you will see the following output:
+
+```
+Miles per Gallon Statistics
+
+Minimum: 10.4 
+Maximum: 33.9 
+Median : 19.2 
+Mean   : 20.09062 
+Std Dev: 6.026948 
+```
+
+As you can tell, the displayed values have a different number of decimal 
+digits. If you just want to keep two decimal digits, you can use `sprintf()`
+and choose the format `"%0.2f"`. Let's re-export the lines:
+
+```{r eval=FALSE}
+cat("Miles per Gallon Statistics\n\n", file = outfile)
+cat(sprintf('Minimum: %0.2f', mpg_min), "\n", file = outfile, append = TRUE)
+cat(sprintf('Maximum: %0.2f', mpg_max), "\n", file = outfile, append = TRUE)
+cat(sprintf('Median : %0.2f', mpg_med), "\n", file = outfile, append = TRUE)
+cat(sprintf('Mean   : %0.2f', mpg_avg), "\n", file = outfile, append = TRUE)
+cat(sprintf('Std Dev: %0.2f', mpg_sd), "\n", file = outfile, append = TRUE)
+```
+
+Now the content of `mpg-statistics.txt` should look like this:
+
+```
+Miles per Gallon Statistics
+
+Minimum: 10.40 
+Maximum: 33.90 
+Median : 19.20 
+Mean   : 20.09 
+Std Dev: 6.03 
+```
+
+Here is an exercise for you: How would you avoid writing that many calls to 
+`cat()`?
+
+
+### Sinking output
+
+Another interesting function is `sink()`. This function is very useful when
+you want to export R output as is displayed in the R console. For example, 
+consider the output from `summary()`
+
+```{r eval=FALSE}
+summary(mtcars)
+```
+
+You could assign the output of `summary(mtcars)` to an object and then try
+`writeLines()` to export the results to a file `mtcars-summary.txt`, but 
+you won't keep the same format of R:
+
+```{r eval = FALSE}
+mtcars_summary <- summary(mtcars)
+writeLines(mtcars_summary, con = "mtcars-summary.txt")
+```
+
+To be able to keep the same output display of R, you must use `sink()`. This
+function will __divert__ R output to the specified file:
+
+```{r eval=FALSE}
+sink(file = "mtcars-statistics.txt")
+summary(australia)
+sink()
+```
+
+__Your turn:__ Use `sink()` to send the output from running a linear 
+regression of `mpg` on `disp` with the function `lm()`. Also export the results 
+from using `summary()` on the regression object. And/or try running a t-test
+between `mpg` and `disp` with `t.test()`.
+
+
+
+## Exporting tables
+
+Another interesting tool to export tables in LaTeX or HTML formats is provided
+by the R package `"xtable"` and its main function `xtable()`.
+
+```{r eval = FALSE}
+library(xtable)
+
+# linear regression
+reg <- lm(mpg ~ disp, data = mtcars)
+
+# create xtable and export it
+reg_table <- xtable(reg)
+```
+
+The object `reg_table` is an object of class `"xtable"`. What you do with this
+type of objects is `print()` them to a file.
+
+To print `reg_table` in latex format to a `.tex` file:
+
+```{r eval = FALSE}
+print(reg_table, type = "latex", file = "reg-table.tex")
+```
+
+To print `reg_table` in html format to an `.html` file:
+
+```{r eval = FALSE}
+print(reg_table, type = "html", file = "reg-table.html")
+```

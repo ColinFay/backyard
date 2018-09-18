@@ -1,0 +1,110 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# backyard
+
+The goal of backyard is to provide a visual backend for Bookdown
+projects.
+
+## Why `{backyard}`?
+
+The main idea is that, with a `{backyard}` backend, users can focus on
+writting and don’t have to know anything about Markdown and/or about R &
+`{bookdown}` to get involved in the writting of a bookdown. This would
+facilitate collaboration between those who use R and those who don’t.
+
+Once deployed, a `{backyard}` backend is easy to access and use, and is
+suitable for tech/non-tech people.
+
+## When would you need {backyard}
+
+There are many situations where you might need `{backyard}`. Here are
+few ideas:
+
+  - You want your partner/parents/friends to proof-read your bookdown,
+    but they don’t know anything about R and/or markdown. Let them
+    re-read your content with a `{backyard}` backend.
+  - You are collaborating on a book with someone who is not an R
+    afficionados.
+  - You’re a group of students doing group work at your university, and
+    need a way to easily collaborate on the content.
+  - You’re more confortable with using a visual backend.
+  - You want to provide a central server for writing books or manual in
+    your company …
+
+## How is a `{backyard}` backend organized?
+
+### Launch
+
+`backyard::run_app()` (without any parameter filled) opens an invite box
+that can either be used for creating a new bookdown (point to the folder
+where you want your bookdown to be saved, and add a folder name), then
+the default Bookdown template is used, or to point to an Index.Rmd of a
+bookdown already present on the machine.
+
+You can pass to `backyard::run_app()` the location of the index.Rmd
+(then the app is launched for this bookdown), or the location of your
+home (for the folder selection invite, default is `~`).
+
+### About
+
+This first page gives you a quick overview of the book. Nothing fancy
+here.
+
+### Chapters
+
+This tabs has 3 other tabs
+
+  - Chapter edit: edit a chapter in html with the WYSIWYG (What you see
+    is what you get) editor. Don’t forget to save when you’re done. If
+    you’re more confortable with markdown, you can also use the “update
+    as Markdown” interface of this window.
+  - Manage Chapter: Add, delete, rename chapters
+  - Reorder Chapter: reorder the chapter of the books with drag and drop
+
+### Options
+
+The idea of this tab is that non-tech people don’t want to enter too
+many technical details, hence they have “textual” content to see. If you
+want to dig into the tech, two tabs can be used to do that?
+
+  - Global: edit some global options with a nice UI
+  - Edit options: change the options of Index.Rmd, \_output.yml and
+    \_bookdown.yml just as if you were in any editor
+  - Edit any file: open an editor for any file contained in same
+    directory as the index.Rmd.
+
+### Design
+
+  - CSS: edit, create and delete CSS files
+  - Highlight: change the book syntax highlighting
+
+## Installation
+
+You can install the dev version of backyard with:
+
+``` r
+remotes::install_github("ColinFay/backyard")
+```
+
+## Known limitations
+
+This project is still experimental, so there might be bugs in the
+interface. Here are some we know of:
+
+  - Only gitbook format is supported (for now)
+  - If you want to preview or render a book, it must compile on the
+    machine it is located: all packages in the bookdown should be
+    installed there, for example.
+  - For now, you can’t change the chunks parameters with the HTML editor
+    (will come some day)
+
+## TODO
+
+  - Better Design
+  - Add other formats
+  - Better download API
+
+> Please note that the ‘backyard’ project is released with a
+> [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
+> this project, you agree to abide by its terms.

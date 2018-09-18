@@ -1,0 +1,118 @@
+.sF-newDir.dropdown.btn-group.btn-group-sm {
+    display: none;
+}
+
+#wholetoolbar {
+    display: block;
+    width: 60.5em;
+    background-color: white;
+    padding-bottom: 1em;
+    padding-top: 1em;
+}
+
+#wholetoolbarscrolled {
+    display: block;
+    width: 66.6666667%;
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    padding-bottom: 1em;
+    padding-top: 1em;
+}
+
+.contenteditablemd {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 1em;
+}
+
+.contenteditablemdscrolled {
+  margin-bottom: 10em;
+}
+
+.toolbar {
+    margin: 1em;
+}
+
+span.inside {
+    margin: 0.5em;
+}
+
+.sortable p::before{
+
+}
+.sortable p {
+    margin: 1em;
+    padding: 0.5em;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+/**
+ * Tooltip Styles
+ */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
