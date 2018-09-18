@@ -19,7 +19,7 @@ test_that("app ui", {
 #
 #   input <- as.environment(list())
 #   output <- as.environment(list())
-#   serv <- backdown:::app_server(input = input,
+#   serv <- backyard:::app_server(input = input,
 #                                      output = output,
 #                                      session = session)
 #   expect_is(serv, "shiny.render.function")

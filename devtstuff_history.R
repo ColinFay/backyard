@@ -36,7 +36,7 @@ usethis::use_package("glue")
 usethis::use_tidy_description()
 
 # Vignette
-usethis::use_vignette("backdown")
+usethis::use_vignette("backyard")
 devtools::build_vignettes()
 
 # Codecov
