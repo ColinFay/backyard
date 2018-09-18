@@ -36,8 +36,8 @@ mod_about <- function(input, output, session, r){
                h3("Backyard:"),
                info_to_li(
                  c(
-                   "GitHub:" = "https://github.com/ColinFay/backdown",
-                   "Issues:" = "https://github.com/ColinFay/backdown/issues"
+                   "GitHub:" = "https://github.com/ColinFay/backyard",
+                   "Issues:" = "https://github.com/ColinFay/backyard/issues"
                  )
                )
                ),

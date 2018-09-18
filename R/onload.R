@@ -4,5 +4,5 @@
 #'
 #' @noRd
 .onLoad <- function(...) {
-  shiny::addResourcePath('www', system.file('www', package = 'backdown'))
+  shiny::addResourcePath('www', system.file('www', package = 'backyard'))
 }

@@ -2,7 +2,7 @@
 mod_reorderui <- function(id){
   ns <- NS(id)
   tagList(
-    includeScript(system.file("html5sortable/jquery.sortable.js", package = "backdown")),
+    includeScript(system.file("html5sortable/jquery.sortable.js", package = "backyard")),
     column(6,
            uiOutput(ns("chapterlist_sortable"))
            ),

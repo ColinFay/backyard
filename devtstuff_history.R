@@ -10,34 +10,6 @@
 # Hide this file from build
 usethis::use_build_ignore("devstuff_history.R")
 
-# DESCRIPTION
-
-library(desc)
-# Create and clean desc
-my_desc <- description$new("DESCRIPTION")
-# Set your package name
-my_desc$set("Package", "backdown")
-
-#Set your name
-my_desc$set("Authors@R", "person('Vincent', 'Guyader', email = 'vincent@thinkr.fr', role = c('cre', 'aut'))")
-
-# Remove some author fields
-my_desc$del("Maintainer")
-
-# Set the version
-my_desc$set_version("0.0.0.9000")
-
-# The title of your package
-my_desc$set(Title = "RStudio Project Templates for Prod-ready Shinyapps")
-# The description of your package
-my_desc$set(Description = "Create a prod-ready shiny app with this RStudio project template.")
-
-# The urls
-my_desc$set("URL", "https://github.com/ThinkR-open/backdown")
-my_desc$set("BugReports", "https://github.com/ThinkR-open/backdown/issues")
-# Save everyting
-my_desc$write(file = "DESCRIPTION")
-
 # If you want to use the MIT licence, code of conduct, lifecycle badge, and README
 usethis::use_mit_license(name = "ThinkR")
 usethis::use_readme_rmd()

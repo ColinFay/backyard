@@ -146,7 +146,7 @@ app_server <- function(input, output, session) {
       r$bookdown_yml <- yaml.load(readLines(r$path %/% "_bookdown.yml"))
     } else {
       file.copy(
-        system.file("_bookdown.yml", package = "backdown"),
+        system.file("_bookdown.yml", package = "backyard"),
         r$path %/% "_bookdown.yml"
       )
       r$bookdown_yml <- yaml.load(readLines(r$path %/% "_bookdown.yml"))
@@ -166,7 +166,7 @@ app_server <- function(input, output, session) {
       r$output_yml <- yaml.load(readLines(r$path %/% "_output.yml"))
     } else {
       file.copy(
-        system.file("_output.yml", package = "backdown"),
+        system.file("_output.yml", package = "backyard"),
         r$path %/% "_output.yml"
       )
       r$output_yml <- yaml.load(readLines(r$path %/% "_output.yml"))
@@ -176,7 +176,7 @@ app_server <- function(input, output, session) {
       r$style <- r$path %/% "style.css"
     } else {
       file.copy(
-        system.file("style.css", package = "backdown"),
+        system.file("style.css", package = "backyard"),
         r$path %/% "style.css"
       )
       r$style <- r$path %/% "style.css"

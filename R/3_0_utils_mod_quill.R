@@ -19,7 +19,7 @@ quill_rmd <- function(input, output, session, rmd, r) {
       rmd <- tf
     }
     tagList(
-      includeScript(system.file("www/code.js", package = "backdown")),
+      includeScript(system.file("www/code.js", package = "backyard")),
       tags$div(id = "wholetoolbar",
                tags$div(
         align = "center",

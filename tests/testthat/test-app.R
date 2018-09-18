@@ -1,7 +1,7 @@
 context("Application")
 library(shiny)
 test_that("app ui", {
-  ui <- backdown:::app_ui()
+  ui <- backyard:::app_ui()
   expect_is(ui, "shiny.tag.list")
 })
 
@@ -16,7 +16,7 @@ test_that("app ui", {
 #       session$lastInputMessage = list(id = inputId, message = message)
 #     }
 #   ))
-# 
+#
 #   input <- as.environment(list())
 #   output <- as.environment(list())
 #   serv <- backdown:::app_server(input = input,

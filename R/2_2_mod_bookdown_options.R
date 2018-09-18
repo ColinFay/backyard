@@ -63,7 +63,7 @@ mod_bookdown_options <- function(input, output, session, r) {
   })
 
   output$out <- renderPrint({
-    as_glue(readLines(system.file("language", package = "backdown")))
+    as_glue(readLines(system.file("language", package = "backyard")))
   })
   observeEvent(input$fromjs, {
     write(input$fromjs, rmd)
