@@ -9,8 +9,8 @@ projects.
 ## Why `{backyard}`?
 
 The main idea is that, with a `{backyard}` backend, users can focus on
-writting and don’t have to know anything about Markdown and/or about R &
-`{bookdown}` to get involved in the writting of a bookdown. This would
+writing and don’t have to know anything about Markdown and/or about R &
+`{bookdown}` to get involved in the writing of a bookdown. This would
 facilitate collaboration between those who use R and those who don’t.
 
 Once deployed, a `{backyard}` backend is easy to access and use, and is
@@ -25,10 +25,10 @@ few ideas:
     but they don’t know anything about R and/or markdown. Let them
     re-read your content with a `{backyard}` backend.
   - You are collaborating on a book with someone who is not an R
-    afficionados.
+    aficionados.
   - You’re a group of students doing group work at your university, and
     need a way to easily collaborate on the content.
-  - You’re more confortable with using a visual backend.
+  - You’re more comfortable with using a visual backend.
   - You want to provide a central server for writing books or manual in
     your company …
 
@@ -57,7 +57,7 @@ This tabs has 3 other tabs
 
   - Chapter edit: edit a chapter in html with the WYSIWYG (What you see
     is what you get) editor. Don’t forget to save when you’re done. If
-    you’re more confortable with markdown, you can also use the “update
+    you’re more comfortable with markdown, you can also use the “update
     as Markdown” interface of this window.
   - Manage Chapter: Add, delete, rename chapters
   - Reorder Chapter: reorder the chapter of the books with drag and drop
@@ -87,12 +87,56 @@ You can install the dev version of backyard with:
 remotes::install_github("ColinFay/backyard")
 ```
 
+## Deploy
+
+The best way to collaborate with this is to deploy this app on a server.
+
+Here a minimalist Docker file that can launch a `{backyard}` backend:
+
+    FROM rocker/tidyverse
+    
+    MAINTAINER Colin FAY "contact@colinfay.me"
+    
+    RUN R -e "install.packages('remotes', repos = 'https://cran.rstudio.com/')"
+    RUN R -e "remotes::install_github('ColinFay/backyard')"
+    
+    EXPOSE 2811
+    
+    CMD R -e "backyard::run_app(host = '0.0.0.0')"
+
+> You can find this dockerfile in the inst/ folder of the package.
+
+If you only wants to share one bookdown (assuming the boookdown is in
+the same dir as the Dockerfile):
+
+    FROM rocker/tidyverse
+    
+    MAINTAINER Colin FAY "contact@colinfay.me"
+    
+    RUN R -e "install.packages('remotes', repos = 'https://cran.rstudio.com/')"
+    RUN R -e "remotes::install_github('ColinFay/backyard')"
+    
+    RUN mkdir /usr/local/bookdown
+    
+    COPY bookdown /usr/bookdown/bookdown
+    
+    EXPOSE 2811
+    
+    CMD R -e "backyard::run_app(indexrmd = '/usr/bookdown/bookdown',host = '0.0.0.0')"
+
+**Notes on Docker**
+
+  - By default, `{backyard}` is deployed on port 2811. It can be changed
+    in `backyard::run_app`.
+  - If you launch the app in a Docker container, be sure to use `host =
+    '0.0.0.0'`
+
 ## Known limitations
 
 This project is still experimental, so there might be bugs in the
 interface. Here are some we know of:
 
-  - Only gitbook format is supported (for now)
+  - Only git book format is supported (for now)
   - If you want to preview or render a book, it must compile on the
     machine it is located: all packages in the bookdown should be
     installed there, for example.

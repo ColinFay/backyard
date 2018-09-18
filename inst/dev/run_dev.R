@@ -10,6 +10,6 @@ devtools::load_all('.')
 
 options(app.prod=FALSE) # TRUE = production mode, FALSE = development mod e
 #shiny::runApp('inst/app')
-run_app(indexrmd = "/Users/colin/bookdown/bookdowna/index.Rmd")
+run_app(indexrmd = "inst/bookdown/index.Rmd")
 #run_app()
 
