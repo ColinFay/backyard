@@ -9,9 +9,11 @@ quill_rmdui <- function(id) {
 #' @importFrom shiny renderUI tagList includeScript tags actionButton icon includeMarkdown observeEvent HTML
 #' @importFrom tools file_path_sans_ext
 #' @importFrom yaml as.yaml
-quill_rmd <- function(input, output, session, rmd, r) {
+quill_rmd <- function(input, output, session, lequel, r) {
   ns <- session$ns
-  id <- file_path_sans_ext(basename(rmd))
+  id <- file_path_sans_ext(basename(lequel()))
+  rmd <- lequel()
+  r$editable$selectedrmd <- lequel()
   output$plop <- renderUI({
     if (basename(rmd) == basename(r$index$path)) {
       tf <- tempfile(fileext = ".Rmd")
@@ -101,15 +103,23 @@ quill_rmd <- function(input, output, session, rmd, r) {
   })
 
   observeEvent(input$saveeditedcontent, {
-    res <- html_to_markdown(HTML(input$editedfromjs))
+    browser()
+    if (input$saveeditedcontent != 0) {
+      if (basename(lequel()) == basename(r$index$path)) {
+        r$index$content <- html_to_markdown(HTML(input$editedfromjs))
+        write("---", lequel())
+        write(as.yaml(r$index_yml), lequel(), append = TRUE)
+        write("---", lequel(), append = TRUE)
+        write("\n", lequel(), append = TRUE)
+        write(r$index$content, lequel(), append = TRUE)
+      } else {
+        write(html_to_markdown(HTML(input$editedfromjs)), lequel())
+      }
 
-    if (basename(rmd) == basename(r$index$path)) {
-      r$index$content <- res
-      res <- paste0("---", as.yaml(r$index_yml), "---", res)
+
+
+      shinyalert("Done!", type = "success")
     }
 
-    write(res, rmd)
-
-    shinyalert("Done!", type = "success")
   })
 }

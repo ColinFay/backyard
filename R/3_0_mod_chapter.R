@@ -54,11 +54,12 @@ mod_chapter <- function(input, output, session, r){
   })
 
   observeEvent(input$choices, {
-    chap$chap <- grep(input$choices, r$chapters, value = TRUE)
+    #browser()
+    lequel <- reactive({grep(input$choices, r$chapters, value = TRUE)})
     output$edit <- renderUI({
       quill_rmdui(ns("quill_rmdui"))
     })
-    callModule(quill_rmd, "quill_rmdui", chap$chap, r)
+    callModule(quill_rmd, "quill_rmdui", lequel, r)
   }, ignoreInit = TRUE)
 
   observeEvent(input$markdown, {
