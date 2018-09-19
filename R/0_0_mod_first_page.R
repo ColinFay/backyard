@@ -61,11 +61,12 @@ mod_home_page <- function(input, output, session, r){
   observeEvent(input$preview, {
     withProgress(
       message = "Rendering the preview", {
-      t <- tempdir()
-      with_dir(r$path, {
-        where <- render_book(input =  r$path, output_dir = t)
-      })
-      browseURL(where)
+        withr::with_dir(r$path, {
+          where <- bookdown::render_book(file.path(r$chapters), output_dir = tempdir())
+          # We need to find a way to make this work in Docker (no browseURL in containers)
+          browseURL(where)
+        })
+
     })
 
   })
