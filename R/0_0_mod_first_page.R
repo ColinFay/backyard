@@ -25,6 +25,20 @@ mod_home_pageui <- function(id, path){
                li.setAttribute("style","margin-top: 0.5em;");
                ul.appendChild(li);
                document.getElementById("',ns("buttonpreview"),'").onclick = function() {Shiny.onInputChange("',ns("preview"),'", Math.random());};
+                });')),
+               tags$script(
+               paste0('$( document ).ready(function() {
+               var ul = document.getElementById("',ns("plop"),'");
+               li = document.createElement("li");
+               var button = document.createElement("text");
+               button.innerHTML = "New Bookdown";
+               li.appendChild(button);
+               li.setAttribute("id","',ns("restartbackyard"),'");
+               li.setAttribute("type","button");
+               li.setAttribute("class","btn btn-default action-button");
+               li.setAttribute("style","margin-left: 0.5em; margin-top: 0.5em;");
+               ul.appendChild(li);
+               document.getElementById("',ns("restartbackyard"),'").onclick = function() {Shiny.onInputChange("',ns("restartbackyard"),'", Math.random());};
                 });'))
     )
   )
@@ -54,5 +68,9 @@ mod_home_page <- function(input, output, session, r){
       browseURL(where)
     })
 
+  })
+
+  observeEvent(input$restartbackyard, {
+    r$index$path <-  NA
   })
 }

@@ -65,7 +65,7 @@ app_server <- function(input, output, session) {
     if (is.na(r$index$path)) {
       showModal(opening())
     }
-  }, once = TRUE)
+  })
 
   roots <- c(wd = getOption("bkyrdhome"))
   shinyFileChoose(
