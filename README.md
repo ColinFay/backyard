@@ -100,9 +100,12 @@ Here a minimalist Docker file that can launch a `{backyard}` backend:
     RUN R -e "install.packages('remotes', repos = 'https://cran.rstudio.com/')"
     RUN R -e "remotes::install_github('ColinFay/backyard')"
     
+    # Create a folder just for bookdowns
+    RUN mkdir /usr/home/bookdown
+    
     EXPOSE 2811
     
-    CMD R -e "backyard::run_app(host = '0.0.0.0')"
+    CMD R -e "backyard::run_app(host = '0.0.0.0', home = '/usr/home/bookdown')"
 
 > You can find this dockerfile in the inst/ folder of the package.
 
@@ -137,6 +140,7 @@ This project is still experimental, so there might be bugs in the
 interface. Here are some we know of:
 
   - Only git book format is supported (for now)
+  - Preview doesn’t work in Docker container
   - If you want to preview or render a book, it must compile on the
     machine it is located: all packages in the bookdown should be
     installed there, for example.
@@ -145,6 +149,7 @@ interface. Here are some we know of:
 
 ## TODO
 
+  - Write a documentation bookdown
   - Better Design
   - Add other formats
   - Better download API
