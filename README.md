@@ -140,7 +140,7 @@ This project is still experimental, so there might be bugs in the
 interface. Here are some we know of:
 
   - Only git book format is supported (for now)
-  - Preview doesn’t work in Docker container
+  - Preview doesn’t work perfectly in Firefox (CSS issue)
   - If you want to preview or render a book, it must compile on the
     machine it is located: all packages in the bookdown should be
     installed there, for example.
