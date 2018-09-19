@@ -5,7 +5,7 @@ mod_editable_rmdui <- function(id, parentns){
   shiny::tagList(
     shiny::tags$style(shiny::HTML('pre {border: none}')),
     shiny::tags$div(
-      id = "currenteditablecontent",
+      id = "currenteditablecontentrmd",
       contenteditable="true",
       style = "background-color: #f5f5f5; border: 1px solid #ccc;",
       shiny::verbatimTextOutput(ns("out")),

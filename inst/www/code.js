@@ -21,9 +21,12 @@ for (var i = 0; i < articles.length; i++) {
 function addStuffs(){
 
   var parent = window.getSelection().anchorNode.parentElement;
+  var parentparent = window.getSelection().anchorNode.parentNode.parentNode.id
 
   if (parent.tagName == "CODE" | parent.tagName == "PRE"){
-    alert("You can't format a code block content");
+    if (parentparent != "currenteditablecontentrmd") {
+      alert("You can't format a code block content");
+    }
   } else {
     var command = this.dataset.command;
     if (
