@@ -97,7 +97,6 @@ mod_chapter <- function(input, output, session, r){
   })
 
   shiny::observeEvent(input$fromjsmd, {
-    browser()
     res <- input$fromjsmd
     lequel <- grep(input$choices, r$chapters, value = TRUE)
     if (basename(rmd) == basename(r$index$path)){
