@@ -7,8 +7,12 @@ mod_chapterui <- function(id){
       column(4,
              radioButtons(ns("choices"),"chapters",choices = letters),
              #actionButton(ns("interactive"), "Update interactively"),
-             actionButton(ns("markdown"), "Update as Markdown")),
-      column(8, uiOutput(ns("edit")))
+             actionButton(ns("markdown"), "Update as Markdown")
+             ),
+
+      column(8, uiOutput(ns("edit")),
+             actionButton(ns("saveeditedcontent"), "Save", style = "margin-bottom: 1em;"),
+             tags$br())
     ),
     tabPanel(
       "Manage Chapters",
@@ -38,7 +42,7 @@ mod_chapterui <- function(id){
 #' @importFrom shiny callModule reactiveValues observe req updateRadioButtons updateSelectInput observeEvent renderUI
 mod_chapter <- function(input, output, session, r){
   ns <- session$ns
-
+  r$go <- 0
   callModule(mod_reorder, "mod_reorderui", r)
 
   chap <- reactiveValues(chap =  NULL)
@@ -54,22 +58,57 @@ mod_chapter <- function(input, output, session, r){
   })
 
   observeEvent(input$choices, {
-    #browser()
     lequel <- reactive({grep(input$choices, r$chapters, value = TRUE)})
     output$edit <- renderUI({
       quill_rmdui(ns("quill_rmdui"))
     })
-    callModule(quill_rmd, "quill_rmdui", lequel, r)
+    callModule(quill_rmd, "quill_rmdui", lequel, r, ns)
   }, ignoreInit = TRUE)
 
   observeEvent(input$markdown, {
     chap$chap <- grep(input$choices, r$chapters, value = TRUE)
     output$edit <- renderUI({
-      mod_editable_rmdui(ns("mod_editable_rmdui"))
+      mod_editable_rmdui(id = ns("mod_editable_rmdui"), parentns = ns)
     })
     callModule(mod_editable_rmd, "mod_editable_rmdui", chap$chap, r)
 
   }, ignoreInit = TRUE)
+
+  observeEvent(input$saveeditedcontent, {
+    cat(crayon::red(input$saveeditedcontent), "\n")
+    lequel <- grep(input$choices, r$chapters, value = TRUE)
+    if (input$saveeditedcontent != 0) {
+      if (basename(input$choices) == basename(r$index$path)) {
+        r$index$content <- html_to_markdown(HTML(input$editedfromjs))
+        write("---", lequel)
+        write(as.yaml(r$index_yml), lequel, append = TRUE)
+        write("---", lequel, append = TRUE)
+        write("\n", lequel, append = TRUE)
+        write(r$index$content, lequel, append = TRUE)
+      } else {
+        write(html_to_markdown(HTML(input$editedfromjs)), lequel)
+      }
+
+
+
+    shinyalert("Done!", type = "success")
+    }
+
+  })
+
+  shiny::observeEvent(input$fromjsmd, {
+    browser()
+    res <- input$fromjsmd
+    lequel <- grep(input$choices, r$chapters, value = TRUE)
+    if (basename(rmd) == basename(r$index$path)){
+      r$index$content <- res
+      res <- paste0("---", yaml::as.yaml(r$index_yml), "---", res)
+    }
+
+    write(res, rmd)
+
+    saved()
+  })
 
   observeEvent(input$add_chapter, {
     new_chapter <- r$path %/% paste0(input$new_chapter, ".Rmd")

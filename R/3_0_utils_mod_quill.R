@@ -9,7 +9,7 @@ quill_rmdui <- function(id) {
 #' @importFrom shiny renderUI tagList includeScript tags actionButton icon includeMarkdown observeEvent HTML
 #' @importFrom tools file_path_sans_ext
 #' @importFrom yaml as.yaml
-quill_rmd <- function(input, output, session, lequel, r) {
+quill_rmd <- function(input, output, session, lequel, r, parentns) {
   ns <- session$ns
   id <- file_path_sans_ext(basename(lequel()))
   rmd <- lequel()
@@ -85,41 +85,39 @@ quill_rmd <- function(input, output, session, lequel, r) {
       ),
       tags$br(),
       tags$div(
-        id = ns(id),
+        id = "currenteditablecontent",
         class = "contenteditablemd",
         contenteditable = "true",
-        includeMarkdown(rmd)
-      ),
-      tags$br(),
-      actionButton(ns("saveeditedcontent"), "Save", style = "margin-bottom: 1em;"),
-      tags$br(),
-      tags$script(paste0('
-      document.getElementById("', ns("saveeditedcontent"), '").onclick = function() {
-      console.log("sending");
-      var x = document.getElementById("', ns(id), '").innerHTML;
-      Shiny.onInputChange("', ns("editedfromjs"), '", x);
-    };'))
+        includeMarkdown(rmd),
+        tags$script(paste0('
+                           document.getElementById("', parentns("saveeditedcontent"), '").onclick = function() {
+                           console.log("sending");
+                           var x = document.getElementById("currenteditablecontent").innerHTML;
+                           Shiny.onInputChange("', parentns("editedfromjs"), '", x);
+                           };'))
+
+      )
     )
   })
 
-  observeEvent(input$saveeditedcontent, {
-    browser()
-    if (input$saveeditedcontent != 0) {
-      if (basename(lequel()) == basename(r$index$path)) {
-        r$index$content <- html_to_markdown(HTML(input$editedfromjs))
-        write("---", lequel())
-        write(as.yaml(r$index_yml), lequel(), append = TRUE)
-        write("---", lequel(), append = TRUE)
-        write("\n", lequel(), append = TRUE)
-        write(r$index$content, lequel(), append = TRUE)
-      } else {
-        write(html_to_markdown(HTML(input$editedfromjs)), lequel())
-      }
-
-
-
-      shinyalert("Done!", type = "success")
-    }
-
-  })
+  # observeEvent(input$saveeditedcontent, {
+  #   cat(crayon::red(input$saveeditedcontent), "\n")
+  #   # if (input$saveeditedcontent != 0) {
+  #   #   if (basename(lequel()) == basename(r$index$path)) {
+  #   #     r$index$content <- html_to_markdown(HTML(input$editedfromjs))
+  #   #     write("---", lequel())
+  #   #     write(as.yaml(r$index_yml), lequel(), append = TRUE)
+  #   #     write("---", lequel(), append = TRUE)
+  #   #     write("\n", lequel(), append = TRUE)
+  #   #     write(r$index$content, lequel(), append = TRUE)
+  #   #   } else {
+  #   #     write(html_to_markdown(HTML(input$editedfromjs)), lequel())
+  #   #   }
+  #   #
+  #
+  #
+  #     #shinyalert("Done!", type = "success")
+  #   #}
+  #
+  # })
 }
