@@ -10,10 +10,11 @@ quill_rmdui <- function(id) {
 #' @importFrom tools file_path_sans_ext
 #' @importFrom yaml as.yaml
 quill_rmd <- function(input, output, session, lequel, r, parentns) {
+  #browser()
   ns <- session$ns
-  id <- file_path_sans_ext(basename(lequel()))
-  rmd <- lequel()
-  r$editable$selectedrmd <- lequel()
+  id <- file_path_sans_ext(basename(lequel))
+  rmd <- lequel
+  r$editable$selectedrmd <- lequel
   output$plop <- renderUI({
     if (basename(rmd) == basename(r$index$path)) {
       tf <- tempfile(fileext = ".Rmd")

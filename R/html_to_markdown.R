@@ -1,6 +1,7 @@
 html_to_markdown <- function(res){
   # plop <- res
   # res <- plop
+  res <- gsub("\n  ", "", res)
   res <- gsub("</*p>", "\n", res)
   res <- gsub("</*strong>", "**", res)
   res <- gsub("</*b>", "**", res)

@@ -81,11 +81,18 @@ app_server <- function(input, output, session) {
   )
 
   observeEvent(input$ok, {
-
     if ( ! isTruthy(input$files) & ! isTruthy(input$dir) ) {
       showModal(opening(failed = TRUE))
       return(NULL)
     }
+
+    if (isTruthy(input$dir)) {
+      if ( dir.exists(normalizePath(parseDirPath(roots, input$dir)) %/% input$namedir) ) {
+        showModal(opening(exists = TRUE))
+        return(NULL)
+      }
+    }
+
     if (isTruthy(input$files) & isTruthy(input$dir)) {
       showModal(opening(both = TRUE))
       return(NULL)
@@ -220,7 +227,6 @@ opening <- function(failed = FALSE, both = FALSE, exists = FALSE) {
       div(tags$b("Directory already exists", style = "color: red;"))
     },
     footer = tagList(
-      actionButton("cancel", "Cancel"),
       actionButton("ok", "OK")
     )
   )

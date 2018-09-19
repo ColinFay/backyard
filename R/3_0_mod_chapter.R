@@ -57,13 +57,15 @@ mod_chapter <- function(input, output, session, r){
                       choices = basename(as.character(r$chapters)))
   })
 
+  lequel <- reactive({grep(input$choices, r$chapters, value = TRUE)})
+
   observeEvent(input$choices, {
-    lequel <- reactive({grep(input$choices, r$chapters, value = TRUE)})
+    chap$chap <- grep(input$choices, r$chapters, value = TRUE)
     output$edit <- renderUI({
       quill_rmdui(ns("quill_rmdui"))
     })
-    callModule(quill_rmd, "quill_rmdui", lequel, r, ns)
-  }, ignoreInit = TRUE)
+    callModule(quill_rmd, "quill_rmdui", chap$chap, r, ns)
+  })
 
   observeEvent(input$markdown, {
     chap$chap <- grep(input$choices, r$chapters, value = TRUE)
@@ -83,7 +85,6 @@ mod_chapter <- function(input, output, session, r){
         write("---", lequel)
         write(as.yaml(r$index_yml), lequel, append = TRUE)
         write("---", lequel, append = TRUE)
-        write("\n", lequel, append = TRUE)
         write(r$index$content, lequel, append = TRUE)
       } else {
         write(html_to_markdown(HTML(input$editedfromjs)), lequel)
@@ -97,15 +98,17 @@ mod_chapter <- function(input, output, session, r){
   })
 
   shiny::observeEvent(input$fromjsmd, {
-    res <- input$fromjsmd
+    r$index$content <- input$fromjsmd
     lequel <- grep(input$choices, r$chapters, value = TRUE)
-    if (basename(rmd) == basename(r$index$path)){
-      r$index$content <- res
-      res <- paste0("---", yaml::as.yaml(r$index_yml), "---", res)
+
+    if (basename(lequel) == basename(r$index$path)){
+      write("---", lequel)
+      write(as.yaml(r$index_yml), lequel, append = TRUE)
+      write("---", lequel, append = TRUE)
+      write(r$index$content, lequel, append = TRUE)
+    } else {
+      write(r$index$content, lequel)
     }
-
-    write(res, rmd)
-
     saved()
   })
 
