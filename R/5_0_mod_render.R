@@ -3,7 +3,8 @@ mod_renderui <- function(id) {
   ns <- NS(id)
   tagList(
     h2("Download gitbook"),
-    actionButton(ns("dl"), 'Download')
+    tags$i("Under construction")
+    #actionButton(ns("dl"), 'Download')
   )
 }
 
@@ -12,48 +13,50 @@ mod_renderui <- function(id) {
 #' @importFrom shinyFiles shinyDirChoose parseDirPath
 #' @importFrom utils zip
 #' @importFrom withr with_dir
-mod_render <- function(input, output, session, r) {
-  ns <- session$ns
-
-  observeEvent(input$dl, {
-    showModal(dir_select(ns))
-  })
-
-  roots <- c(wd = getOption("bkyrdhome"))
-
-  shinyDirChoose(
-    input,
-    "dir",
-    roots = roots
-  )
-  observeEvent(input$okdl, {
-
-    if ( ! isTruthy(input$dir) ) {
-      showModal(dir_select(ns, failed = TRUE))
-      return(NULL)
-    }
-    withProgress(
-      message = "Rendering the book", {
-        ici <- normalizePath(parseDirPath(roots, input$dir))
-        t <- tempdir()
-        with_dir(r$path, {
-          where <- render_book(input =  r$path, output_dir = t)
-        })
-        with_dir(t, {
-          zip(
-            paste0(ici, "/", input$namedir, ".zip"),
-            list.files(t)
-          )
-        })
-
-  })
-    saved()
-    removeModal()
-  })
-
-  observeEvent(input$canceldl, {
-    showModal(dir_select(ns, failed = TRUE))
-    })
+# mod_render <- function(input, output, session, r) {
+#   ns <- session$ns
+#
+#   observeEvent(input$dl, {
+#     showModal(dir_select(ns))
+#   })
+#
+#   roots <- c(wd = getOption("bkyrdhome"))
+#
+#   shinyDirChoose(
+#     input,
+#     "dir",
+#     roots = roots
+#   )
+#   observeEvent(input$okdl, {
+#
+#     if ( ! isTruthy(input$dir) ) {
+#       showModal(dir_select(ns, failed = TRUE))
+#       return(NULL)
+#     }
+#     withProgress(
+#       message = "Rendering the book", {
+#
+#         ici <- normalizePath(parseDirPath(roots, input$dir))
+#
+#         #t <- tempdir()
+#         with_dir(r$path, {
+#           where <- render_book(input =  r$path, output_dir = normalizePath(parseDirPath(roots, input$dir)))
+#         })
+#         with_dir(t, {
+#           zip(
+#             paste0(ici, "/", input$namedir, ".zip"),
+#             list.files(ici)
+#           )
+#         })
+#
+#   })
+#     saved()
+#     removeModal()
+#   })
+#
+#   observeEvent(input$canceldl, {
+#     showModal(dir_select(ns, failed = TRUE))
+#     })
 }
 
 #' @importFrom shiny modalDialog tags textInput div tagList actionButton
