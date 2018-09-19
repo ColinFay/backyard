@@ -56,7 +56,7 @@ app_server <- function(input, output, session) {
     book_bib = NULL,
     package_bib = NULL,
     style = NULL
-    )
+  )
   observeEvent(TRUE, {
     r$index$path <- getOption("bkyrd")
   }, once = TRUE)
@@ -137,72 +137,60 @@ app_server <- function(input, output, session) {
     }
 
     index_yml <- readLines(r$index$path)
+    idx <- grep("---", index_yml)
+    idx1 <- idx[1] + 1
+    idx2 <- idx[2] - 1
+    r$index_yml <- yaml.load(index_yml[idx1:idx2])
+    r$index$content <- index_yml[(idx2+2):length(index_yml)]
 
-    try({
-      idx <- grep("---", index_yml)
-      idx1 <- idx[1] + 1
-      idx2 <- idx[2] - 1
-      r$index_yml <- yaml.load(index_yml[idx1:idx2])
-    })
-    if (is.null(r$index_yml$content)){
-      showModal(opening(existsfile = TRUE))
-      return(NULL)
+
+    if ( file.exists( r$path %/% "_bookdown.yml" ) ) {
+      r$bookdown_yml <- yaml.load(readLines(r$path %/% "_bookdown.yml"))
     } else {
-      r$index$content <- index_yml[(idx2+2):length(index_yml)]
-
-
-      if ( file.exists( r$path %/% "_bookdown.yml" ) ) {
-        r$bookdown_yml <- yaml.load(readLines(r$path %/% "_bookdown.yml"))
-      } else {
-        file.copy(
-          system.file("_bookdown.yml", package = "backyard"),
-          r$path %/% "_bookdown.yml"
-        )
-        r$bookdown_yml <- yaml.load(readLines(r$path %/% "_bookdown.yml"))
-      }
-      if ( is.null(r$bookdown_yml$rmd_files) ){
-        rmds <- list.files(r$path, pattern = "Rmd$", full.names = TRUE)
-        index_indx <- which(grepl(basename(r$index$path),rmds))
-        rmds <- rmds[-index_indx]
-        r$chapters <- factor( c(r$index$path, rmds) , levels = c(r$index$path, rmds) )
-      } else {
-        r$chapters <- paste0(r$path, "/", basename(r$bookdown_yml$rmd_files))
-        r$chapters <- factor(r$chapters , levels = r$chapters )
-      }
-
-
-      if ( file.exists( r$path %/% "_output.yml" ) ) {
-        r$output_yml <- yaml.load(readLines(r$path %/% "_output.yml"))
-      } else {
-        file.copy(
-          system.file("_output.yml", package = "backyard"),
-          r$path %/% "_output.yml"
-        )
-        r$output_yml <- yaml.load(readLines(r$path %/% "_output.yml"))
-      }
-
-      if ( file.exists( r$path %/% "style.css" ) ) {
-        r$style <- r$path %/% "style.css"
-      } else {
-        file.copy(
-          system.file("style.css", package = "backyard"),
-          r$path %/% "style.css"
-        )
-        r$style <- r$path %/% "style.css"
-      }
+      file.copy(
+        system.file("_bookdown.yml", package = "backyard"),
+        r$path %/% "_bookdown.yml"
+      )
+      r$bookdown_yml <- yaml.load(readLines(r$path %/% "_bookdown.yml"))
+    }
+    if ( is.null(r$bookdown_yml$rmd_files) ){
+      rmds <- list.files(r$path, pattern = "Rmd$", full.names = TRUE)
+      index_indx <- which(grepl(basename(r$index$path),rmds))
+      rmds <- rmds[-index_indx]
+      r$chapters <- factor( c(r$index$path, rmds) , levels = c(r$index$path, rmds) )
+    } else {
+      r$chapters <- paste0(r$path, "/", basename(r$bookdown_yml$rmd_files))
+      r$chapters <- factor(r$chapters , levels = r$chapters )
     }
 
+
+    if ( file.exists( r$path %/% "_output.yml" ) ) {
+      r$output_yml <- yaml.load(readLines(r$path %/% "_output.yml"))
+    } else {
+      file.copy(
+        system.file("_output.yml", package = "backyard"),
+        r$path %/% "_output.yml"
+      )
+      r$output_yml <- yaml.load(readLines(r$path %/% "_output.yml"))
+    }
+
+    if ( file.exists( r$path %/% "style.css" ) ) {
+      r$style <- r$path %/% "style.css"
+    } else {
+      file.copy(
+        system.file("style.css", package = "backyard"),
+        r$path %/% "style.css"
+      )
+      r$style <- r$path %/% "style.css"
+    }
   })
 
   output$ui <- renderUI({
     req(r$path)
-    req(r$index_yml$content)
     mod_home_pageui("mod_home_pageui", r$path)
   })
   observe({
-
     if (!is.null(r$path)) {
-      req(r$index_yml$content)
       callModule(mod_home_page, "mod_home_pageui", r = r)
     }
   })
@@ -210,7 +198,7 @@ app_server <- function(input, output, session) {
 
 #' @importFrom shiny modalDialog tags textInput div tagList actionButton
 #' @importFrom shinyFiles shinyDirButton shinyFilesButton
-opening <- function(failed = FALSE, both = FALSE, exists = FALSE, existsfile = FALSE) {
+opening <- function(failed = FALSE, both = FALSE, exists = FALSE) {
   modalDialog(
     tags$strong(
       "Create a new Bookdown"
@@ -237,9 +225,6 @@ opening <- function(failed = FALSE, both = FALSE, exists = FALSE, existsfile = F
     },
     if (exists) {
       div(tags$b("Directory already exists", style = "color: red;"))
-    },
-    if (existsfile) {
-      div(tags$b("Unable to parse the Rmd as Index", style = "color: red;"))
     },
     footer = tagList(
       actionButton("ok", "OK")
