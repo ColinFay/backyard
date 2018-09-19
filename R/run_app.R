@@ -2,7 +2,7 @@
 #'
 #' @inheritParams shiny::shinyApp
 #' @param indexrmd the path to index.Rmd, if you want to launch from an already existing bookdown
-#' @param home where should the directory/file selector widget start from
+#' @param home where should the directory/file selector widget start from. Default is "/"
 #' @param port port to run the Shiny app on, default is 2811.
 #' @param ... options to be passed to `shinyApp`, options param
 #'
@@ -17,7 +17,7 @@
 #'
 #' }
 #'
-run_app <- function(indexrmd = NA, home = "~",
+run_app <- function(indexrmd = NA, home = "/",
                     onStart = NULL, uiPattern = "/",
                     port = 2811, enableBookmarking = NULL, ...) {
   opts <- list(...)
