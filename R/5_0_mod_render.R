@@ -13,7 +13,7 @@ mod_renderui <- function(id) {
 #' @importFrom shinyFiles shinyDirChoose parseDirPath
 #' @importFrom utils zip
 #' @importFrom withr with_dir
-# mod_render <- function(input, output, session, r) {
+mod_render <- function(input, output, session, r) {
 #   ns <- session$ns
 #
 #   observeEvent(input$dl, {
