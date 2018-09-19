@@ -137,7 +137,6 @@ app_server <- function(input, output, session) {
     r$index$content <- index_yml[(idx2+2):length(index_yml)]
 
 
-
     if ( file.exists( r$path %/% "_bookdown.yml" ) ) {
       r$bookdown_yml <- yaml.load(readLines(r$path %/% "_bookdown.yml"))
     } else {
@@ -153,7 +152,7 @@ app_server <- function(input, output, session) {
       rmds <- rmds[-index_indx]
       r$chapters <- factor( c(r$index$path, rmds) , levels = c(r$index$path, rmds) )
     } else {
-      r$chapters <- paste0(r$path, "/", r$bookdown_yml$rmd_files)
+      r$chapters <- paste0(r$path, "/", basename(r$bookdown_yml$rmd_files))
       r$chapters <- factor(r$chapters , levels = r$chapters )
     }
 
