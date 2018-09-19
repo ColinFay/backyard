@@ -1,3 +1,37 @@
+#preview iframe{
+  width: auto;
+  min-width: 100%;
+  height: auto;
+  min-height: 100%;
+  position: relative;
+}
+
+#preview .modal-dialog {
+  width: 99%;
+  height: 90%;
+  margin: 0;
+  padding: 0;
+}
+
+#preview .modal-content {
+  height: auto;
+  min-height: 100%;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
+  border-radius: 0;
+}
+
+#preview .modal-body {
+  padding:0px;
+  height: auto;
+  min-height: 100%;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
+
+}
+
 .sF-newDir.dropdown.btn-group.btn-group-sm {
     display: none;
 }

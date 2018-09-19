@@ -1,5 +1,4 @@
 book_filename: "bookdown"
-book_filename: "bookdown"
 delete_merged_file: true
 language:
   ui:

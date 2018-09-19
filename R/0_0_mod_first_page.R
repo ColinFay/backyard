@@ -61,17 +61,44 @@ mod_home_page <- function(input, output, session, r){
   observeEvent(input$preview, {
     withProgress(
       message = "Rendering the preview", {
+
         withr::with_dir(r$path, {
+
           where <- bookdown::render_book(file.path(r$chapters), output_dir = tempdir())
-          # We need to find a way to make this work in Docker (no browseURL in containers)
-          browseURL(where)
+          print(where)
+          showModal(previewmodal(where, ns))
         })
 
     })
 
   })
 
+  observeEvent(input$closepreview,{
+    removeModal()
+  })
+
   observeEvent(input$restartbackyard, {
     r$index$path <-  NA
   })
+}
+
+
+#' @importFrom shiny modalDialog tags textInput div tagList actionButton
+#' @importFrom shinyFiles shinyDirButton shinyFilesButton
+previewmodal <- function(where, ns) {
+  addResourcePath("plop", dirname(where))
+  tags$div(id = "preview",
+           modalDialog(
+
+             size = "l",
+             # tags$div(id = "contentpreview"),
+             # print(glue("$('#contentpreview').load('plop/{basename(where)}')")),
+             # tags$script(glue("$('#contentpreview').load('plop/{basename(where)}')")),
+             tags$iframe(
+               frameborder="0", "allowfullscreen",
+               src= glue("plop/{basename(where)}")),
+             footer = tagList(
+               actionButton(ns("closepreview"), "Close Preview")
+             )
+           ))
 }
