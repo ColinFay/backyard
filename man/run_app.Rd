@@ -4,13 +4,13 @@
 \alias{run_app}
 \title{run the Shiny Application}
 \usage{
-run_app(indexrmd = NA, home = "/", onStart = NULL, uiPattern = "/",
+run_app(indexrmd = NA, home = ".", onStart = NULL, uiPattern = "/",
   port = 2811, enableBookmarking = NULL, ...)
 }
 \arguments{
 \item{indexrmd}{the path to index.Rmd, if you want to launch from an already existing bookdown}
 
-\item{home}{where should the directory/file selector widget start from. Default is "/"}
+\item{home}{where should the directory/file selector widget start from. Default is "."}
 
 \item{onStart}{A function that will be called before the app is actually run.
 This is only needed for \code{shinyAppObj}, since in the \code{shinyAppDir}

@@ -45,9 +45,7 @@ There are many situations where you might need `{backyard}`. Here are few ideas:
 
 `backyard::run_app()` (without any parameter filled) opens an invite box that can either be used for creating a new bookdown (point to the folder where you want your bookdown to be saved, and add a folder name), then the default Bookdown template is used, or to point to an Index.Rmd of a bookdown already present on the machine. 
 
-You can pass to `backyard::run_app()` the location of the index.Rmd (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `/`). 
-
-__About launching on Windows:__ I don't know well how windows and R works. To use this app with `run_app`, you'll need to specify manually the path of the home. `backyard::run_app(home = "C://")` seems to do the trick (I'll spend some time to investigate on how to make it friendlier). 
+You can pass to `backyard::run_app()` the location of the index.Rmd (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `.`). 
 
 ### About
 

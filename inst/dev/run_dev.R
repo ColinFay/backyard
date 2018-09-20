@@ -8,8 +8,8 @@ rm(list=ls(all.names = TRUE))
 devtools::document('.')
 devtools::load_all('.')
 
-options(app.prod=FALSE) # TRUE = production mode, FALSE = development mod e
+options(app.prod=FALSE) # TRUE = production mode, FALSE = development mode
 #shiny::runApp('inst/app')
-run_app(indexrmd = "inst/bookdown/index.Rmd")
-#run_app()
+#run_app(indexrmd = "inst/bookdown/index.Rmd")
+run_app()
 
