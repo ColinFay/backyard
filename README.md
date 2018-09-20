@@ -1,6 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
+> Words of caution: this is still a WIP. Use carefully, and don’t forger
+> to backup your bookdwon before using the app.
+
 # backyard
 
 The goal of backyard is to provide a visual backend for Bookdown
