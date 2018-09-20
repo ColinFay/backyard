@@ -49,7 +49,13 @@ bookdown already present on the machine.
 
 You can pass to `backyard::run_app()` the location of the index.Rmd
 (then the app is launched for this bookdown), or the location of your
-home (for the folder selection invite, default is `~`).
+home (for the folder selection invite, default is `/`).
+
+**About launching on Windows:** I don’t know well how windows and R
+works. To use this app with `run_app`, you’ll need to specify manually
+the path of the home. `backyard::run_app(home = "C://")` seems to do the
+trick (I’ll spend some time to investigate on how to make it
+friendlier).
 
 ### About
 
