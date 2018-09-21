@@ -115,7 +115,7 @@ mod_chapter <- function(input, output, session, r){
   observeEvent(input$add_chapter, {
     new_chapter <- r$path %/% paste0(input$new_chapter, ".Rmd")
     file.create(new_chapter)
-    write("\n\n", new_chapter)
+    write("\n\n## A new chapter", new_chapter)
     r$chapters <- factor(
       c(as.character(r$chapters), new_chapter),
       levels = c(as.character(r$chapters), new_chapter)
