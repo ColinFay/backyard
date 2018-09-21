@@ -25,7 +25,7 @@ function addStuffs(){
 
   if (parent.tagName == "CODE" | parent.tagName == "PRE"){
     if (parentparent != "currenteditablecontentrmd") {
-      alert("You can't format a code block content");
+      console.log("You can't format a code block content");
     }
   } else {
     var command = this.dataset.command;
