@@ -16,6 +16,11 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
+
+> Words of caution: this is still a WIP. Use carefully, and don't forger to backup your bookdwon before using the app.
+
 # backyard
 
 The goal of backyard is to provide a visual backend for Bookdown projects.
@@ -43,7 +48,7 @@ There are many situations where you might need `{backyard}`. Here are few ideas:
 
 `backyard::run_app()` (without any parameter filled) opens an invite box that can either be used for creating a new bookdown (point to the folder where you want your bookdown to be saved, and add a folder name), then the default Bookdown template is used, or to point to an Index.Rmd of a bookdown already present on the machine. 
 
-You can pass to `backyard::run_app()` the location of the index.Rmd (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `~`). 
+You can pass to `backyard::run_app()` the location of the index.Rmd (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `.`). 
 
 ### About
 
@@ -92,9 +97,12 @@ MAINTAINER Colin FAY "contact@colinfay.me"
 RUN R -e "install.packages('remotes', repos = 'https://cran.rstudio.com/')"
 RUN R -e "remotes::install_github('ColinFay/backyard')"
 
+# Create a folder just for bookdowns
+RUN mkdir /usr/home/bookdown
+
 EXPOSE 2811
 
-CMD R -e "backyard::run_app(host = '0.0.0.0')"
+CMD R -e "backyard::run_app(host = '0.0.0.0', home = '/usr/home/bookdown')"
 
 ```
 
@@ -131,11 +139,17 @@ __Notes on Docker__
 This project is still experimental, so there might be bugs in the interface. Here are some we know of:
 
 + Only git book format is supported (for now)
++ Preview doesn't work perfectly in Firefox (CSS issue)
 + If you want to preview or render a book, it must compile on the machine it is located: all packages in the bookdown should be installed there, for example. 
 + For now, you can't change the chunks parameters with the HTML editor (will come some day)
 
 ## TODO
 
++ Write a documentation bookdown
 + Better Design
 + Add other formats
 + Better download API
+
+
+> Please note that the 'backyard' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+

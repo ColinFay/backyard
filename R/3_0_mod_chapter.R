@@ -6,9 +6,9 @@ mod_chapterui <- function(id){
       "Chapter edit",
       column(4,
              radioButtons(ns("choices"),"chapters",choices = letters),
-             #actionButton(ns("interactive"), "Update interactively"),
+             actionButton(ns("interactive"), "Update interactively"),
              actionButton(ns("markdown"), "Update as Markdown")
-      ),
+             ),
 
       column(8, uiOutput(ns("edit")),
              actionButton(ns("saveeditedcontent"), "Save", style = "margin-bottom: 1em;"),
@@ -24,13 +24,13 @@ mod_chapterui <- function(id){
              h3("Delete a chapter"),
              selectInput(ns("delete_list"), "Chapters", choices = letters),
              actionButton(ns("delete_chapter"), "Delete")
-      ),
+             ),
       column(4,
              h3("Rename a chapter"),
              selectInput(ns("rename_list"), "Chapters", choices = letters),
              textInput(ns("rename_name"), "New name (without .Rmd)"),
              actionButton(ns("rename_chapter"), "Rename")
-      )
+             )
     ),
     tabPanel(
       "Reorder Chapter",
@@ -67,6 +67,14 @@ mod_chapter <- function(input, output, session, r){
     callModule(quill_rmd, "quill_rmdui", chap$chap, r, ns)
   })
 
+  observeEvent(input$interactive, {
+    chap$chap <- grep(input$choices, r$chapters, value = TRUE)
+    output$edit <- renderUI({
+      quill_rmdui(ns("quill_rmdui"))
+    })
+    callModule(quill_rmd, "quill_rmdui", chap$chap, r, ns)
+  })
+
   observeEvent(input$markdown, {
     chap$chap <- grep(input$choices, r$chapters, value = TRUE)
     output$edit <- renderUI({
@@ -92,7 +100,7 @@ mod_chapter <- function(input, output, session, r){
 
 
 
-      shinyalert("Done!", type = "success")
+    shinyalert("Done!", type = "success")
     }
 
   })
@@ -115,7 +123,7 @@ mod_chapter <- function(input, output, session, r){
   observeEvent(input$add_chapter, {
     new_chapter <- r$path %/% paste0(input$new_chapter, ".Rmd")
     file.create(new_chapter)
-    write("\n\n## A new chapter", new_chapter)
+    write("\n\n", new_chapter)
     r$chapters <- factor(
       c(as.character(r$chapters), new_chapter),
       levels = c(as.character(r$chapters), new_chapter)
@@ -131,7 +139,7 @@ mod_chapter <- function(input, output, session, r){
   }, ignoreInit = TRUE)
 
   observeEvent(input$rename_chapter, {
-    #browser()
+    browser()
     to_rename <- which(grepl(input$rename_list, r$chapters))
     new_name <- r$path %/% paste0(input$rename_name, ".Rmd")
     file.rename(file.path(r$chapters[to_rename]), file.path(new_name))
@@ -142,3 +150,4 @@ mod_chapter <- function(input, output, session, r){
 
 
 }
+
