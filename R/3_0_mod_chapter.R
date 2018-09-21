@@ -6,9 +6,9 @@ mod_chapterui <- function(id){
       "Chapter edit",
       column(4,
              radioButtons(ns("choices"),"chapters",choices = letters),
-             actionButton(ns("interactive"), "Update interactively"),
+             #actionButton(ns("interactive"), "Update interactively"),
              actionButton(ns("markdown"), "Update as Markdown")
-             ),
+      ),
 
       column(8, uiOutput(ns("edit")),
              actionButton(ns("saveeditedcontent"), "Save", style = "margin-bottom: 1em;"),
@@ -24,13 +24,13 @@ mod_chapterui <- function(id){
              h3("Delete a chapter"),
              selectInput(ns("delete_list"), "Chapters", choices = letters),
              actionButton(ns("delete_chapter"), "Delete")
-             ),
+      ),
       column(4,
              h3("Rename a chapter"),
              selectInput(ns("rename_list"), "Chapters", choices = letters),
              textInput(ns("rename_name"), "New name (without .Rmd)"),
              actionButton(ns("rename_chapter"), "Rename")
-             )
+      )
     ),
     tabPanel(
       "Reorder Chapter",
@@ -67,14 +67,6 @@ mod_chapter <- function(input, output, session, r){
     callModule(quill_rmd, "quill_rmdui", chap$chap, r, ns)
   })
 
-  observeEvent(input$interactive, {
-    chap$chap <- grep(input$choices, r$chapters, value = TRUE)
-    output$edit <- renderUI({
-      quill_rmdui(ns("quill_rmdui"))
-    })
-    callModule(quill_rmd, "quill_rmdui", chap$chap, r, ns)
-  })
-
   observeEvent(input$markdown, {
     chap$chap <- grep(input$choices, r$chapters, value = TRUE)
     output$edit <- renderUI({
@@ -100,7 +92,7 @@ mod_chapter <- function(input, output, session, r){
 
 
 
-    shinyalert("Done!", type = "success")
+      shinyalert("Done!", type = "success")
     }
 
   })
@@ -150,4 +142,3 @@ mod_chapter <- function(input, output, session, r){
 
 
 }
-

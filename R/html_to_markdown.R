@@ -28,6 +28,7 @@ html_to_markdown <- function(res){
   res <- gsub('<pre><code class="([^"]*)">', "\n\n```{\\1}\n\n", res)
   res <- gsub('<pre>', "\n\n```{r}\n\n", res)
   res <- gsub("</code></pre>", "\n```\n\n", res)
+  res <- gsub("</pre></span>", "\n```\n\n", res)
   res <- gsub("</*code>", "`", res)
   res <- gsub("\n{2,}", "\n\n", res)
   res
