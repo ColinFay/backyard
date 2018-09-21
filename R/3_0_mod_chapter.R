@@ -6,7 +6,7 @@ mod_chapterui <- function(id){
       "Chapter edit",
       column(4,
              radioButtons(ns("choices"),"chapters",choices = letters),
-             #actionButton(ns("interactive"), "Update interactively"),
+             actionButton(ns("interactive"), "Update interactively"),
              actionButton(ns("markdown"), "Update as Markdown")
              ),
 
@@ -60,6 +60,14 @@ mod_chapter <- function(input, output, session, r){
   lequel <- reactive({grep(input$choices, r$chapters, value = TRUE)})
 
   observeEvent(input$choices, {
+    chap$chap <- grep(input$choices, r$chapters, value = TRUE)
+    output$edit <- renderUI({
+      quill_rmdui(ns("quill_rmdui"))
+    })
+    callModule(quill_rmd, "quill_rmdui", chap$chap, r, ns)
+  })
+
+  observeEvent(input$interactive, {
     chap$chap <- grep(input$choices, r$chapters, value = TRUE)
     output$edit <- renderUI({
       quill_rmdui(ns("quill_rmdui"))
