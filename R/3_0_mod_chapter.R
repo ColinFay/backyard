@@ -131,7 +131,7 @@ mod_chapter <- function(input, output, session, r){
   }, ignoreInit = TRUE)
 
   observeEvent(input$rename_chapter, {
-    browser()
+    #browser()
     to_rename <- which(grepl(input$rename_list, r$chapters))
     new_name <- r$path %/% paste0(input$rename_name, ".Rmd")
     file.rename(file.path(r$chapters[to_rename]), file.path(new_name))
