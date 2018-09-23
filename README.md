@@ -3,7 +3,7 @@
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
-> Words of caution: this is still a WIP. Use carefully, and don’t forger
+> Words of caution: this is still a WIP. Use carefully, and don’t forget
 > to backup your bookdwon before using the app.
 
 # backyard
@@ -51,6 +51,12 @@ You can pass to `backyard::run_app()` the location of the index.Rmd
 (then the app is launched for this bookdown), or the location of your
 home (for the folder selection invite, default is `.`).
 
+By default, the `safe_mode` parameter is set to `TRUE`. This mode
+creates, at launch time, a copy (in `{path}/backyard_copy`) of your
+current version of the bookdown folder. That way, if ever you do
+something wrong during your backyard session, you can still go back to
+the previous version.
+
 ### About
 
 This first page gives you a quick overview of the book. Nothing fancy
@@ -66,6 +72,11 @@ This tabs has 3 other tabs
     as Markdown” interface of this window.
   - Manage Chapter: Add, delete, rename chapters
   - Reorder Chapter: reorder the chapter of the books with drag and drop
+
+#### About code blocks in interactive mode
+
+Code blocks are, on purpose, not editable in Interactive mode. You
+should switch to Markdown mode if you want to edit these elements.
 
 ### Options
 

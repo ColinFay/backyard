@@ -61,6 +61,10 @@ This tabs has 3 other tabs
 + Manage Chapter: Add, delete, rename chapters
 + Reorder Chapter: reorder the chapter of the books with drag and drop
 
+#### About code blocks in interactive mode
+
+Code blocks are, on purpose, not editable in Interactive mode. You should switch to Markdown mode if you want to edit these elements. 
+
 ### Options
 
 The idea of this tab is that non-tech people don't want to enter too many technical details, hence they have "textual" content to see. If you want to dig into the tech, two tabs can be used to do that? 
