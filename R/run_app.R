@@ -18,6 +18,7 @@
 #' }
 #'
 run_app <- function(indexrmd = NA, home = ".",
+                    safe_mode = TRUE,
                     onStart = NULL, uiPattern = "/",
                     port = 2811, enableBookmarking = NULL, ...) {
   opts <- list(...)
@@ -27,5 +28,6 @@ run_app <- function(indexrmd = NA, home = ".",
   }
   options("bkyrd" = indexrmd)
   options("bkyrdhome" = home)
+  options("bkyrdsafe" = safe_mode)
   shinyApp(ui = app_ui(), server = app_server, options = opts)
 }

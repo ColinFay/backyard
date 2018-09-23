@@ -79,7 +79,7 @@ quill_rmd <- function(input, output, session, lequel, r, parentns) {
             ),
             tags$span(
               class = "inside",
-              actionButton(inputId = "removeFormat", label = NULL, icon = icon("eraser"), "data-command" = "removeFormat", "data-tooltip" = "Remove all styles")
+              actionButton(inputId = "removeFormat", label = NULL, icon = icon("eraser"), "data-command" = "div", "data-tooltip" = "Remove all styles")
             )
           )
         )
@@ -89,37 +89,18 @@ quill_rmd <- function(input, output, session, lequel, r, parentns) {
         id = "currenteditablecontent",
         class = "contenteditablemd",
         contenteditable = "true",
-        includeMarkdown(rmd)
+        includeMarkdown(rmd),
+        tags$script("blockpre();"),
+        tags$script("addp();")
       ),
       tags$div(
         tags$script(paste0('
-                           document.getElementById("', parentns("saveeditedcontent"), '").onclick = function() {
-                           console.log("sending");
-                           var x = document.getElementById("currenteditablecontent").innerHTML;
-                           Shiny.onInputChange("', parentns("editedfromjs"), '", x);
-  };'))
+        document.getElementById("', parentns("saveeditedcontent"), '").onclick = function() {
+          console.log("sending");
+          var x = document.getElementById("currenteditablecontent").innerHTML;
+          Shiny.onInputChange("', parentns("editedfromjs"), '", x);
+        };'))
       )
     )
   })
-
-  # observeEvent(input$saveeditedcontent, {
-  #   cat(crayon::red(input$saveeditedcontent), "\n")
-  #   # if (input$saveeditedcontent != 0) {
-  #   #   if (basename(lequel()) == basename(r$index$path)) {
-  #   #     r$index$content <- html_to_markdown(HTML(input$editedfromjs))
-  #   #     write("---", lequel())
-  #   #     write(as.yaml(r$index_yml), lequel(), append = TRUE)
-  #   #     write("---", lequel(), append = TRUE)
-  #   #     write("\n", lequel(), append = TRUE)
-  #   #     write(r$index$content, lequel(), append = TRUE)
-  #   #   } else {
-  #   #     write(html_to_markdown(HTML(input$editedfromjs)), lequel())
-  #   #   }
-  #   #
-  #
-  #
-  #     #shinyalert("Done!", type = "success")
-  #   #}
-  #
-  # })
 }

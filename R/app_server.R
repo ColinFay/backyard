@@ -61,6 +61,17 @@ app_server <- function(input, output, session) {
     r$index$path <- getOption("bkyrd")
   }, once = TRUE)
 
+  observeEvent(TRUE, {
+    #browser()
+    r$safe_mode <- getOption("bkyrdsafe")
+    if (r$safe_mode & ! is.na(r$index$path)){
+      path <- dirname(r$index$path)
+      safe_dir <- glue("{dirname(path)}/backyard_copy")
+      dir.create(safe_dir, showWarnings = FALSE)
+      file.copy(from = path, safe_dir, recursive = TRUE)
+    }
+  }, once = TRUE)
+
   observeEvent(r$index$path, {
     if (is.na(r$index$path)) {
       showModal(opening())
@@ -103,6 +114,14 @@ app_server <- function(input, output, session) {
       if (file.exists(res$datapath)) {
         options("bkyrd" = res$datapath)
         r$index$path <- res$datapath
+
+        if (r$safe_mode){
+          path <- dirname(r$index$path)
+          safe_dir <- glue("{dirname(path)}/backyard_copy")
+          dir.create(safe_dir, showWarnings = FALSE)
+          file.copy(from = path, safe_dir, recursive = TRUE)
+        }
+
         r$path <- normalizePath(dirname(r$index$path))
         removeModal()
       } else {
@@ -118,6 +137,12 @@ app_server <- function(input, output, session) {
       r$index$path <- r$path %/% "index.Rmd"
       dir.create(r$path)
       getFromNamespace("bookdown_skeleton", "bookdown")(r$path)
+      if (r$safe_mode){
+        path <- dirname(r$index$path)
+        safe_dir <- glue("{dirname(path)}/backyard_copy")
+        dir.create(safe_dir, showWarnings = FALSE)
+        file.copy(from = path, safe_dir, recursive = TRUE)
+      }
       removeModal()
     } else {
       showModal(opening(failed = TRUE))
