@@ -1,5 +1,5 @@
 $( document ).on( "DOMNodeInserted", function() {
-	if ($( "#currenteditablecontent" ).children().last().children()[0].tagName == "PRE") {
+	if ($( "#currenteditablecontent" ).children().last()[0].tagName == "PRE") {
 	  addp();
 	}
 });
@@ -81,7 +81,7 @@ function addStuffs(){
     var a = document.getSelection().toString();
     var lgg = prompt('Enter the language here: (default is R)', 'r');
     if ( a== ""){
-      var a = "Insert code";
+      var a = "Insert code in Markdown mode";
     }
     document.execCommand('insertHTML',
     false, '<pre><code class="'+ lgg +'">'+ a +'</code></pre>');
