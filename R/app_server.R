@@ -121,7 +121,6 @@ app_server <- function(input, output, session) {
           dir.create(safe_dir, showWarnings = FALSE)
           file.copy(from = path, safe_dir, recursive = TRUE)
         }
-
         r$path <- normalizePath(dirname(r$index$path))
         removeModal()
       } else {
@@ -137,12 +136,15 @@ app_server <- function(input, output, session) {
       r$index$path <- r$path %/% "index.Rmd"
       dir.create(r$path)
       getFromNamespace("bookdown_skeleton", "bookdown")(r$path)
+      file.create(r$path %/% "book.bib")
+      file.create(r$path %/% "package.bib")
       if (r$safe_mode){
         path <- dirname(r$index$path)
         safe_dir <- glue("{dirname(path)}/backyard_copy")
         dir.create(safe_dir, showWarnings = FALSE)
         file.copy(from = path, safe_dir, recursive = TRUE)
       }
+      browser()
       removeModal()
     } else {
       showModal(opening(failed = TRUE))
