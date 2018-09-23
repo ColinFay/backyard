@@ -1,3 +1,9 @@
+$( document ).on( "DOMNodeInserted", function() {
+	if ($( "#currenteditablecontent" ).children().last().children()[0].tagName == "PRE") {
+	  addp();
+	}
+});
+
 function blockpre(){
   var x = document.getElementsByTagName("pre");
   for (i = 0; i < x.length; i++) {
@@ -80,7 +86,6 @@ function addStuffs(){
     document.execCommand('insertHTML',
     false, '<pre><code class="'+ lgg +'">'+ a +'</code></pre>');
     blockpre();
-
   }
   }
 }
