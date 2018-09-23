@@ -1,0 +1,51 @@
+# Deploy 
+
+The best way to collaborate with this is to deploy this app on a server. 
+
+Here a minimalist Docker file that can launch a `{backyard}` backend:
+
+```
+FROM rocker/tidyverse
+
+MAINTAINER Colin FAY "contact@colinfay.me"
+
+RUN R -e "install.packages('remotes', repos = 'https://cran.rstudio.com/')"
+RUN R -e "remotes::install_github('ColinFay/backyard')"
+
+# Create a folder just for bookdowns
+RUN mkdir /usr/home/bookdown
+
+EXPOSE 2811
+
+CMD R -e "backyard::run_app(host = '0.0.0.0', home = '/usr/home/bookdown')"
+
+```
+
+> You can find this dockerfile in the inst/ folder of the package.
+
+If you only wants to share one bookdown (assuming the boookdown is in the same dir as the Dockerfile):
+
+```
+FROM rocker/tidyverse
+
+MAINTAINER Colin FAY "contact@colinfay.me"
+
+RUN R -e "install.packages('remotes', repos = 'https://cran.rstudio.com/')"
+RUN R -e "remotes::install_github('ColinFay/backyard')"
+
+RUN mkdir /usr/local/bookdown
+
+COPY bookdown /usr/bookdown/bookdown
+
+EXPOSE 2811
+
+CMD R -e "backyard::run_app(indexrmd = '/usr/bookdown/bookdown',host = '0.0.0.0')"
+
+```
+
+__Notes on Docker__ 
+
++ By default, `{backyard}` is deployed on port 2811. It can be changed in `backyard::run_app`.
++ If you launch the app in a Docker container, be sure to use `host = '0.0.0.0'`
+
+

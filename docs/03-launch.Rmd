@@ -1,0 +1,9 @@
+# Launch
+
+`backyard::run_app()` (without any parameter filled) opens an invite box that can either be used for creating a new bookdown (point to the folder where you want your bookdown to be saved, and add a folder name), then the default Bookdown template is used, or to point to an Index.Rmd of a bookdown already present on the machine. 
+
+You can pass to `backyard::run_app()` the location of the index.Rmd (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `.`). 
+
+By default, the `safe_mode` parameter is set to `TRUE`. This mode creates, at launch time, a copy (in `{path}/backyard_copy`) of your current version of the bookdown folder. That way, if ever you do something wrong during your backyard session, you can still go back to the previous version.
+
+

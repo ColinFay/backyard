@@ -1,0 +1,8 @@
+# Design
+
+<ul>
+<li>CSS: edit, create and delete CSS files</li>
+<li>Highlight: change the book syntax highlighting</li>
+</ul>
+
+

@@ -1,0 +1,11 @@
+# Options
+
+The idea of this tab is that non-tech people don't want to enter too many technical details, hence they have “textual” content to see. If you want to dig into the tech, two tabs can be used to do that?
+
+<ul>
+<li>Global: edit some global options with a nice UI</li>
+<li>Edit options: change the options of Index.Rmd, _output.yml and _bookdown.yml just as if you were in any editor</li>
+<li>Edit any file: open an editor for any file contained in same directory as the index.Rmd.</li>
+</ul>
+ 
+

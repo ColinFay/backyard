@@ -1,0 +1,11 @@
+# Chapters
+
+This tabs has 3 other tabs
+
+<ul>
+<li>Chapter edit: edit a chapter in html with the WYSIWYG (What you see is what you get) editor. Don't forget to save when you're done. If you're more comfortable with markdown, you can also use the “update as Markdown” interface of this window.</li>
+<li>Manage Chapter: Add, delete, rename chapters</li>
+<li>Reorder Chapter: reorder the chapter of the books with drag and drop</li>
+</ul>
+ 
+
