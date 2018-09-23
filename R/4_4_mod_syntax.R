@@ -34,7 +34,7 @@ mod_syntax <- function(input, output, session, r){
     saved()
   })
   observeEvent(input$save_t, {
-    browser()
+    #browser()
     r$output_yml$`html_book`$theme <- input$html_themes
     write_yaml(r$output_yml, r$path %/% "_output.yml" )
     saved()
