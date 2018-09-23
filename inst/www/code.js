@@ -1,3 +1,19 @@
+function blockpre(){
+  var x = document.getElementsByTagName("pre");
+  for (i = 0; i < x.length; i++) {
+    var element = x[i];
+    var parent = element.parentNode;
+    var wrapper = document.createElement("div");
+    wrapper.setAttribute("contentEditable","false");
+    parent.replaceChild(wrapper, element);
+    wrapper.appendChild(element);
+  }
+}
+
+function addp(){
+  $('#currenteditablecontent').append('<br>');
+}
+
 var where = $('#wholetoolbar').offset()["top"]
 
 function myFunction() {
@@ -22,14 +38,21 @@ function addStuffs(){
 
   var parent = window.getSelection().anchorNode.parentElement;
   var parentparent = window.getSelection().anchorNode.parentNode.parentNode.id
-
+  var command = this.dataset.command;
   if (parent.tagName == "CODE" | parent.tagName == "PRE"){
+    if (command == 'p') {
+      document.execCommand('formatBlock', false, command);
+      }
+    if (command == 'div') {
+      document.execCommand('formatBlock', false, command);
+      }
     if (parentparent != "currenteditablecontentrmd") {
       console.log("You can't format a code block content");
     }
   } else {
     var command = this.dataset.command;
     if (
+      command == 'div'||
       command == 'h1'||
       command == 'h2'||
       command == 'h3'||
@@ -56,6 +79,7 @@ function addStuffs(){
     }
     document.execCommand('insertHTML',
     false, '<pre><code class="'+ lgg +'">'+ a +'</code></pre>');
+    blockpre();
 
   }
   }
