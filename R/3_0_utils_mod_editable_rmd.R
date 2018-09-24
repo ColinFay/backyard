@@ -5,10 +5,11 @@ mod_editable_rmdui <- function(id, parentns){
   shiny::tagList(
     shiny::tags$style(shiny::HTML('pre {border: none}')),
     shiny::tags$div(
-      id = "currenteditablecontentrmd",
+      id = "currenteditablecontent",
       contenteditable="true",
       style = "background-color: #f5f5f5; border: 1px solid #ccc;",
       shiny::verbatimTextOutput(ns("out")),
+      tags$script(paste0('console.log("', ns("out"), '")')),
       tags$script(paste0('document.getElementById("', parentns("saveeditedcontent"), '").onclick = function() {
                          console.log("sending");
                          var x = document.getElementById("', ns("out"), '").innerHTML;

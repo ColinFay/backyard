@@ -85,8 +85,11 @@ mod_chapter <- function(input, output, session, r){
   }, ignoreInit = TRUE)
 
   observeEvent(input$saveeditedcontent, {
-    cat(crayon::red(input$saveeditedcontent), "\n")
     lequel <- grep(input$choices, r$chapters, value = TRUE)
+    if (nchar(html_to_markdown(HTML(input$editedfromjs))) == 0){
+      shinyalert("No content found to save", type = "error")
+      return(NULL)
+    }
     if (input$saveeditedcontent != 0) {
       if (basename(input$choices) == basename(r$index$path)) {
         r$index$content <- html_to_markdown(HTML(input$editedfromjs))
@@ -98,27 +101,25 @@ mod_chapter <- function(input, output, session, r){
         write(html_to_markdown(HTML(input$editedfromjs)), lequel)
       }
 
-
-
-    shinyalert("Done!", type = "success")
+      shinyalert("Done!", type = "success")
     }
 
   })
 
-  shiny::observeEvent(input$fromjsmd, {
-    r$index$content <- input$fromjsmd
-    lequel <- grep(input$choices, r$chapters, value = TRUE)
-
-    if (basename(lequel) == basename(r$index$path)){
-      write("---", lequel)
-      write(as.yaml(r$index_yml), lequel, append = TRUE)
-      write("---", lequel, append = TRUE)
-      write(r$index$content, lequel, append = TRUE)
-    } else {
-      write(r$index$content, lequel)
-    }
-    saved()
-  })
+  # shiny::observeEvent(input$fromjsmd, {
+  #   r$index$content <- input$fromjsmd
+  #   lequel <- grep(input$choices, r$chapters, value = TRUE)
+  #
+  #   if (basename(lequel) == basename(r$index$path)){
+  #     write("---", lequel)
+  #     write(as.yaml(r$index_yml), lequel, append = TRUE)
+  #     write("---", lequel, append = TRUE)
+  #     write(r$index$content, lequel, append = TRUE)
+  #   } else {
+  #     write(r$index$content, lequel)
+  #   }
+  #   saved()
+  # })
 
   observeEvent(input$add_chapter, {
     new_chapter <- r$path %/% paste0(input$new_chapter, ".Rmd")

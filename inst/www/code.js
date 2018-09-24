@@ -58,7 +58,7 @@ function addStuffs(){
     if (command == 'div') {
       document.execCommand('formatBlock', false, command);
       }
-    if (parentparent != "currenteditablecontentrmd") {
+    if (parentparent != "currenteditablecontent") {
       console.log("You can't format a code block content");
     }
   } else {
