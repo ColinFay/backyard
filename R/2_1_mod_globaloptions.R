@@ -45,8 +45,8 @@ mod_global_options <- function(input, output, session, r){
     updateTextInput(session, "title", value = r$index_yml$title %||% "")
     updateTextInput(session, "author", value = r$index_yml$author %||% "")
     updateTextAreaInput(session, "description", value = r$index_yml$description %||% "")
-    updateTextInput(session, "before", value = r$output_yml$`gitbook`$config$toc$before %||% "")
-    updateTextInput(session, "after", value = r$output_yml$`gitbook`$config$toc$after %||% "")
+    updateTextInput(session, "before", value = r$output_yml$`bookdown::gitbook`$config$toc$before %||% "")
+    updateTextInput(session, "after", value = r$output_yml$`bookdown::gitbook`$config$toc$after %||% "")
   })
 
   observeEvent(input$save, {
@@ -58,8 +58,8 @@ mod_global_options <- function(input, output, session, r){
       c("---\n", as.yaml(r$index_yml), "\n---\n\n", r$index$content),
       r$index$path
     )
-    r$output_yml$`gitbook`$config$toc$before <- input$before
-    r$output_yml$`gitbook`$config$toc$after <- input$after
+    r$output_yml$`bookdown::gitbook`$config$toc$before <- input$before
+    r$output_yml$`bookdown::gitbook`$config$toc$after <- input$after
     write_yaml(r$output_yml, r$path %/% "_output.yml")
     saved()
   })

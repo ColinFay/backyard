@@ -27,7 +27,7 @@ app_server <- function(input, output, session) {
     output_yml = list(
       path = NULL,
       content = list(
-        `gitbook` = list(
+        `bookdown::gitbook` = list(
           css = NA,
           config = list(
             toc = list(
@@ -37,7 +37,7 @@ app_server <- function(input, output, session) {
             download = NA
           )
         ),
-        `pdf_book` = list(
+        `bookdown::pdf_book` = list(
           includes = list(
             in_header = NA
           ),
@@ -45,10 +45,10 @@ app_server <- function(input, output, session) {
           citation_package = NA,
           keep_tex = TRUE
         ),
-        `html_book` = list(
+        `bookdown::html_book` = list(
           css = NA
         ),
-        `epub_book` = list(
+        `bookdown::epub_book` = list(
           css = NA
         )
       )
@@ -144,7 +144,7 @@ app_server <- function(input, output, session) {
         dir.create(safe_dir, showWarnings = FALSE)
         file.copy(from = path, safe_dir, recursive = TRUE)
       }
-      browser()
+      #browser()
       removeModal()
     } else {
       showModal(opening(failed = TRUE))
