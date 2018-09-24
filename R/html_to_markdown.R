@@ -16,6 +16,7 @@ html_to_markdown <- function(res){
   res <- gsub("</ol>", "", res)
   res <- gsub("<ul>\n?<li>", "+ ", res)
   res <- gsub("<ol>\n?<li>", "1. ", res)
+  res <- gsub("<li>", "+ ", res)
   res <- gsub("\n  ", "", res)
   res <- gsub("&nbsp;", " ", res)
   res <- gsub("</*div[^>]*>", "\n", res)
