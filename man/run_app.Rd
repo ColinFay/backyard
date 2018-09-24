@@ -4,22 +4,15 @@
 \alias{run_app}
 \title{run the Shiny Application}
 \usage{
-run_app(indexrmd = NA, home = ".", onStart = NULL, uiPattern = "/",
-  port = 2811, enableBookmarking = NULL, ...)
+run_app(indexrmd = NA, home = ".", safe_mode = TRUE, port = 2811,
+  enableBookmarking = NULL, ...)
 }
 \arguments{
 \item{indexrmd}{the path to index.Rmd, if you want to launch from an already existing bookdown}
 
 \item{home}{where should the directory/file selector widget start from. Default is "."}
 
-\item{onStart}{A function that will be called before the app is actually run.
-This is only needed for \code{shinyAppObj}, since in the \code{shinyAppDir}
-case, a \code{global.R} file can be used for this purpose.}
-
-\item{uiPattern}{A regular expression that will be applied to each \code{GET}
-request to determine whether the \code{ui} should be used to handle the
-request. Note that the entire request path must match the regular
-expression in order for the match to be considered successful.}
+\item{safe_mode}{wether to run on safe mode or not}
 
 \item{port}{port to run the Shiny app on, default is 2811.}
 
