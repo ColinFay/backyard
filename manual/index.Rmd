@@ -1,5 +1,4 @@
 ---
-
 title: About {backyard}
 author: Colin Fay
 site: bookdown::bookdown_site
@@ -11,20 +10,7 @@ biblio-style: apalike
 link-citations: yes
 description: This books aims at giving guidelines for operating a backyard backend.
 
-
 ---
-
-
-
-
-
-
-
-
-
-
-
-
 # About
 
 `{backyard}` is a shinny based back-end that provides for easier collaboration on Bookdown projects.
@@ -33,6 +19,6 @@ description: This books aims at giving guidelines for operating a backyard backe
 
 You can install the dev version of backyard with:
 
-``` r
+```{r eval = FALSE}
 remotes::install_github("ColinFay/backyard")
 ```

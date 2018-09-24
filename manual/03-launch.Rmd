@@ -1,9 +1,14 @@
-# Launch
+<pre id="mod_home_pageui-mod_chapterui-mod_editable_rmdui-out" class="shiny-text-output noplaceholder shiny-bound-output" style="line-height: 1.42857;">#  Launch
 
-`backyard::run_app()` (without any parameter filled) opens an invite box that can either be used for creating a new bookdown (point to the folder where you want your bookdown to be saved, and add a folder name), then the default Bookdown template is used, or to point to an Index.Rmd of a bookdown already present on the machine. 
+## Launching {backyard}
 
-You can pass to `backyard::run_app()` the location of the index.Rmd (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `.`). 
+`backyard::run_app()` (without any parameter filled) opens an invite box that can either be used for + creating a new bookdown: then you'll need to point to the folder where you want your bookdown to be saved, and add a folder name. In that case the default Bookdown template is used+ point to an Index.Rmd of a bookdown already present on the machine
 
-By default, the `safe_mode` parameter is set to `TRUE`. This mode creates, at launch time, a copy (in `{path}/backyard_copy`) of your current version of the bookdown folder. That way, if ever you do something wrong during your backyard session, you can still go back to the previous version.
+## Passing parameters
 
-
+You can pass parameters to `backyard::run_app()`:</pre><pre id="mod_home_pageui-mod_chapterui-mod_editable_rmdui-out" class="shiny-text-output noplaceholder shiny-bound-output" style="line-height: 1.42857;">+ the location of the index.Rmd (then the app is launched for this bookdown) 
++ the location of your home (for the folder selection invite, default is `.`)
++ safe_mode: wether or not to run on safe mode
++ port: which port to run on
++ ... params to pass to shinyApp options</pre><pre id="mod_home_pageui-mod_chapterui-mod_editable_rmdui-out" class="shiny-text-output noplaceholder shiny-bound-output" style="line-height: 1.42857;">### About safe mode</pre><pre id="mod_home_pageui-mod_chapterui-mod_editable_rmdui-out" class="shiny-text-output noplaceholder shiny-bound-output" style="line-height: 1.42857;">By default, the `safe_mode` parameter is set to `TRUE`. This mode creates, at launch time, a copy (in `{path}/backyard_copy`) of your current version of the bookdown folder. That way, if ever you do something wrong during your backyard session, you can still go back to the previous version.
+ </pre>

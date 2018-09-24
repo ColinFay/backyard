@@ -7,5 +7,3 @@ This tabs has 3 other tabs
 <li>Manage Chapter: Add, delete, rename chapters</li>
 <li>Reorder Chapter: reorder the chapter of the books with drag and drop</li>
 </ul>
- 
-
