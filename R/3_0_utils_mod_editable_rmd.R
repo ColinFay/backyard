@@ -13,7 +13,7 @@ mod_editable_rmdui <- function(id, parentns){
       tags$script(paste0('document.getElementById("', parentns("saveeditedcontent"), '").onclick = function() {
                          console.log("sending");
                          var x = document.getElementById("', ns("out"), '").innerHTML;
-                         Shiny.onInputChange("', parentns("fromjsmd"), '", x);
+                         Shiny.onInputChange("', parentns("editedfromjs"), '", x);
                          };'))
 
     )
