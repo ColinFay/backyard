@@ -1,6 +1,5 @@
 html_to_markdown <- function(res){
-  # plop <- res
-  # res <- plop
+  saved_res <- res
   #browser()
   res <- gsub("<script>.*</script>", "", res)
   res <- gsub("<pre><code>", "```\n", res)
@@ -50,5 +49,6 @@ html_to_markdown <- function(res){
   res <- gsub("\n{2,}", "\n\n", res)
   res <- gsub("</blockquote>", "", res)
   res <- gsub("<blockquote>(\n|<p>)*", "> ", res)
+  res <- gsub("&gt;", "> ", res)
   res
 }
