@@ -19,23 +19,32 @@ mod_chapterui <- function(id){
       column(4,
              h3("Add a new chapter"),
              textInput(ns("new_chapter"), "Title (without .Rmd)"),
-             actionButton(ns("add_chapter"), "Add")),
-      column(4,
-             h3("Delete a chapter"),
-             selectInput(ns("delete_list"), "Chapters", choices = letters),
-             actionButton(ns("delete_chapter"), "Delete")
-             ),
-      column(4,
+             actionButton(ns("add_chapter"), "Add"),
+             tags$br(),
              h3("Rename a chapter"),
              selectInput(ns("rename_list"), "Chapters", choices = letters),
              textInput(ns("rename_name"), "New name (without .Rmd)"),
-             actionButton(ns("rename_chapter"), "Rename")
+             actionButton(ns("rename_chapter"), "Rename")),
+      column(2,
+             h3("Delete a chapter"),
+             radioButtons(ns("delete_list"), "Chapters", choices = letters),
+             actionButton(ns("delete_chapter"), "Delete")
+             ),
+      column(4,
+             includeScript(
+               system.file("html5sortable/jquery.sortable.js",
+                           package = "backyard")),
+             h3("Reorder chapters"),
+             uiOutput(ns("chapterlist_sortable"))
+             ),
+      column(2,
+             uiOutput(ns("chapterlist"))
              )
-    ),
-    tabPanel(
-      "Reorder Chapter",
-      mod_reorderui(ns("mod_reorderui"))
-    )
+    )#,
+    # tabPanel(
+    #   "Reorder Chapter",
+    #   NULL
+    # )
   )
 }
 
@@ -51,7 +60,7 @@ mod_chapter <- function(input, output, session, r){
     req(r$chapters)
     updateRadioButtons(session, "choices",
                        choices = basename(as.character(r$chapters)))
-    updateSelectInput(session, "delete_list",
+    updateRadioButtons(session, "delete_list",
                       choices = basename(as.character(r$chapters)))
     updateSelectInput(session, "rename_list",
                       choices = basename(as.character(r$chapters)))
@@ -147,6 +156,54 @@ mod_chapter <- function(input, output, session, r){
     r$chapters[to_rename] <- new_name
   }, ignoreInit = TRUE)
 
+  output$chapterlist_sortable <- renderUI({
+    tagList(
+      tags$ul( class="sortable",
+               list_to_p(basename(as.character(r$chapters)), class = "sortable-list")
+      ),
+      tags$br(),
+      tags$div(align = "center",
+               actionButton(ns("save"), "Save")),
+      tags$br(),
+      tags$script("$('.sortable').sortable();"),
+      tags$script(HTML(paste0('
+                              document.getElementById("', ns("save"), '").onclick = function() {
+                              var val = document.getElementsByClassName("sortable-list");
+                              var l = [];
+                              for (var i = 0; i < val.length; i++) {
+                              l.push(val[i].innerText)
+                              };
+                              Shiny.onInputChange("', ns("fromjs"), '", l);
+                              };')))
+    )
+
+  })
+
+  observe({
+    output$chapterlist <- renderUI({
+
+      tagList(
+        tags$h3("Current order:"),
+        tags$ul(list_to_p(basename(as.character(r$chapters)))
+        )
+
+      )
+    })
+  })
+
+  observeEvent(input$fromjs, {
+    new_order <- lapply(input$fromjs,
+                        function(x){
+                          grep(x, r$chapters, value = TRUE)
+                        })
+    levels(r$chapters) <- as.character(new_order)
+    r$bookdown_yml$rmd_files <- r$chapters
+    write_yaml(
+      r$bookdown_yml,
+      paste0(r$path, "/_bookdown.yml")
+    )
+    saved()
+  })
 
 
 }
