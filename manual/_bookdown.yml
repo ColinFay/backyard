@@ -1,5 +1,17 @@
-book_filename: "docs"
-delete_merged_file: true
+book_filename: docs
+delete_merged_file: yes
 language:
   ui:
-    chapter_name: "Chapter "
+    chapter_name: 'Chapter '
+rmd_files:
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/index.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/01-intro.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/02-overview.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/03-launch.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/04-about.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/05-chapters.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/06-options.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/07-design.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/08-render.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/09-deploy.Rmd
+- /Users/colin/Seafile/documents_colin/R/backyard/manual/10-contact.Rmd

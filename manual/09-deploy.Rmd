@@ -4,8 +4,8 @@ The best way to collaborate with this is to deploy this app on a server.
 
 Here a minimalist Docker file that can launch a `{backyard}` backend:
 
-```{r}
-`FROM rocker/tidyverse
+```
+FROM rocker/tidyverse
 
 MAINTAINER Colin FAY "contact@colinfay.me"
 
@@ -21,16 +21,12 @@ CMD R -e "backyard::run_app(host = '0.0.0.0', home = '/usr/home/bookdown')"
 
 ```
 
-<blockquote>
-
-You can find this dockerfile in the inst/ folder of the package.
-
-</blockquote>
+&gt; You can find this dockerfile in the inst/ folder of the package.
 
 If you only wants to share one bookdown (assuming the boookdown is in the same dir as the Dockerfile):
 
-```{r}
-`FROM rocker/tidyverse
+```
+FROM rocker/tidyverse
 
 MAINTAINER Colin FAY "contact@colinfay.me"
 
@@ -49,9 +45,5 @@ CMD R -e "backyard::run_app(indexrmd = '/usr/bookdown/bookdown',host = '0.0.0.0'
 
 **Notes on Docker** 
 
-<ul>
-<li>By default, `{backyard}` is deployed on port 2811. It can be changed in `backyard::run_app`.</li>
-<li>If you launch the app in a Docker container, be sure to use `host = '0.0.0.0'`</li>
-</ul>
-
-
++ By default, `{backyard}` is deployed on port 2811. It can be changed in `backyard::run_app`.
++ If you launch the app in a Docker container, be sure to use `host = '0.0.0.0'`
