@@ -21,7 +21,7 @@ CMD R -e "backyard::run_app(host = '0.0.0.0', home = '/usr/home/bookdown')"
 
 ```
 
-&gt; You can find this dockerfile in the inst/ folder of the package.
+>  You can find this dockerfile in the inst/ folder of the package.
 
 If you only wants to share one bookdown (assuming the boookdown is in the same dir as the Dockerfile):
 
