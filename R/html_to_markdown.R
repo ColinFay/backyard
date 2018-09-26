@@ -4,6 +4,7 @@ html_to_markdown <- function(res){
   res <- gsub("<script>.*</script>", "", res)
   res <- gsub("<pre><code>", "```\n", res)
   res <- gsub("</*p>", "", res)
+  res <- gsub("&nbsp;", " ", res)
   # parse lists
   res <- gsub("</li>", "", res)
   while (grepl("<ol>\n?<li>[^<li>]*<li>", res)) {
@@ -12,13 +13,15 @@ html_to_markdown <- function(res){
   while (grepl("<ul>\n?<li>[^<li>]*<li>", res)) {
     res <- gsub("(<ul>\n?<li>[^<li>]*)(<li>)", "\\1<ul>\\2", res)
   }
+  res <- gsub("<li>", "\n+ ", res)
+  res <- gsub("<ul>", "", res)
+  res <- gsub("<ol>", "", res)
   res <- gsub("</ul>", "", res)
   res <- gsub("</ol>", "", res)
   res <- gsub("<ul>\n?<li>", "+ ", res)
   res <- gsub("<ol>\n?<li>", "1. ", res)
   res <- gsub("<li>", "+ ", res)
   res <- gsub("\n  ", "", res)
-  res <- gsub("&nbsp;", " ", res)
   res <- gsub("</*div[^>]*>", "\n", res)
   res <- gsub("</*span[^>]*>", "", res)
   res <- gsub("<br>", "\n", res)

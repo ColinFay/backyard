@@ -11,6 +11,7 @@ mod_chapterui <- function(id){
              ),
 
       column(8, uiOutput(ns("edit")),
+             tags$br(),
              actionButton(ns("saveeditedcontent"), "Save", style = "margin-bottom: 1em;"),
              tags$br())
     ),
@@ -94,6 +95,7 @@ mod_chapter <- function(input, output, session, r){
   }, ignoreInit = TRUE)
 
   observeEvent(input$saveeditedcontent, {
+    #browser()
     lequel <- grep(input$choices, r$chapters, value = TRUE)
     if (nchar(html_to_markdown(HTML(input$editedfromjs))) == 0){
       shinyalert("No content found to save", type = "error")
