@@ -6,28 +6,32 @@ Authors@R:
            family = "Fay",
            role = c("cre", "aut"),
            email = "contact@colinfay.me")
-Description: Make Bookdown collaboration just a little bit easier with `backyard`, a visual backend for Bookkdown.
+Description: Make Bookdown collaboration just a little bit
+    easier with `backyard`, a visual backend for Bookkdown.
 License: MIT + file LICENSE
 URL: https://github.com/ColinFay/backyard
 BugReports: https://github.com/ColinFay/backyard/issues
 Depends: 
     R (>= 3.4.3)
 Imports: 
+    bookdown,
     DT,
     glue,
     graphics,
     shiny,
+    shinyalert,
     shinyFiles,
     stats,
-    yaml,
-    shinyalert,
+    stringr,
+    textutils,
     withr,
-    bookdown
+    yaml
 Suggests: 
     knitr,
     rmarkdown,
     testthat
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
-VignetteBuilder: knitr

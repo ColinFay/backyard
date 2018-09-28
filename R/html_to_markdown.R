@@ -1,6 +1,7 @@
 html_to_markdown <- function(res){
   saved_res <- res
   #browser()
+  res <- textutils::HTMLdecode(res)
   res <- gsub("<script>.*</script>", "", res)
   res <- gsub("<pre><code>", "```\n", res)
   res <- gsub("</*p>", "", res)
@@ -48,10 +49,11 @@ html_to_markdown <- function(res){
   res <- gsub('<pre>', "\n```{r}\n", res)
   res <- gsub("</code></pre>", "\n```\n", res)
   res <- gsub("</*code>", "`", res)
-  res <- gsub("\n{2,}", "\n\n", res)
-  res <- gsub("\n{2,}", "\n\n", res)
   res <- gsub("</blockquote>", "", res)
   res <- gsub("<blockquote>(\n|<p>)*", "> ", res)
-  res <- gsub("&gt;", "> ", res)
+  res <- gsub(" {2,}", "", res)
+  res <- gsub("<[^>]*>", "\n", res)
+  res <- HTML(stringr::str_trim(res))
+  res <- gsub("\n{2,}", "\n\n", res)
   res
 }

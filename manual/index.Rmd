@@ -22,4 +22,3 @@ You can install the dev version of backyard with:
 ```{r eval = FALSE}
 remotes::install_github("ColinFay/backyard")
 ```
-

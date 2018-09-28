@@ -97,7 +97,7 @@ quill_rmd <- function(input, output, session, lequel, r, parentns) {
         tags$script(paste0('
         document.getElementById("', parentns("saveeditedcontent"), '").onclick = function() {
           console.log("sending");
-          var x = document.getElementById("currenteditablecontent").innerHTML;
+          var x = $("#currenteditablecontent").html();
           Shiny.onInputChange("', parentns("editedfromjs"), '", x);
         };'))
       )
