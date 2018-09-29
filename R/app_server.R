@@ -64,7 +64,7 @@ app_server <- function(input, output, session) {
   observeEvent(TRUE, {
     #browser()
     r$safe_mode <- getOption("bkyrdsafe")
-    if (r$safe_mode & ! is.na(r$index$path)){
+    if (r$safe_mode & ! is.na(r$index$path) & is_index(input$files) ){
       path <- dirname(r$index$path)
       safe_dir <- glue("{dirname(path)}/backyard_copy/copy-{gsub(' ', '-', Sys.time())}")
       dir.create(safe_dir, showWarnings = FALSE)
@@ -111,13 +111,17 @@ app_server <- function(input, output, session) {
 
     if (isTruthy(input$files) & ! isTruthy(input$dir) ) {
       res <- parseFilePaths(roots, input$files)
+      if (!is_index(res$datapath)){
+        showModal(opening(not_index = TRUE))
+        return(NULL)
+      }
       if (file.exists(res$datapath)) {
         options("bkyrd" = res$datapath)
         r$index$path <- res$datapath
 
         if (r$safe_mode){
           path <- dirname(r$index$path)
-          safe_dir <- glue("{dirname(path)}/backyard_copy")
+          safe_dir <- glue("{dirname(path)}/backyard_copy/copy-{gsub(' ', '-', Sys.time())}")
           dir.create(safe_dir, showWarnings = FALSE)
           file.copy(from = path, safe_dir, recursive = TRUE)
         }
@@ -225,7 +229,7 @@ app_server <- function(input, output, session) {
 
 #' @importFrom shiny modalDialog tags textInput div tagList actionButton
 #' @importFrom shinyFiles shinyDirButton shinyFilesButton
-opening <- function(failed = FALSE, both = FALSE, exists = FALSE) {
+opening <- function(failed = FALSE, both = FALSE, exists = FALSE, not_index = FALSE) {
   modalDialog(
     tags$strong(
       "Create a new Bookdown"
@@ -252,6 +256,9 @@ opening <- function(failed = FALSE, both = FALSE, exists = FALSE) {
     },
     if (exists) {
       div(tags$b("Directory already exists", style = "color: red;"))
+    },
+    if (not_index) {
+      div(tags$b("Couldn't parse this index file", style = "color: red;"))
     },
     footer = tagList(
       actionButton("ok", "OK")

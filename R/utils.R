@@ -45,3 +45,9 @@ info_to_li <- function(list){
   HTML(glue("<li> <b>{names(list)}</b>: {list} </li>"))
 }
 
+is_index <- function(path){
+  is(
+    attempt::attempt(yaml::read_yaml(path), silent = TRUE),
+    "try-error"
+    )
+}
