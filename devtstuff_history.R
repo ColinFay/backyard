@@ -32,6 +32,7 @@ usethis::use_package("graphics")
 usethis::use_package("glue")
 usethis::use_package("textutils")
 usethis::use_package("stringr")
+usethis::use_package("attempt")
 
 # Reorder your DESC
 

@@ -25,7 +25,8 @@ Imports:
     stringr,
     textutils,
     withr,
-    yaml
+    yaml,
+    attempt
 Suggests: 
     knitr,
     rmarkdown,
