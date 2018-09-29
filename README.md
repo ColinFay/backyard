@@ -8,8 +8,8 @@
 
 # backyard
 
-The goal of backyard is to provide a visual backend for Bookdown
-projects.
+The goal of backyard is to provide a visual backend for collaboration on
+Bookdown projects.
 
 ## Why `{backyard}`?
 
@@ -56,6 +56,12 @@ creates, at launch time, a copy (in `{path}/backyard_copy`) of your
 current version of the bookdown folder. That way, if ever you do
 something wrong during your backyard session, you can still go back to
 the previous version.
+
+The `markdown_only` parameter, set to `TRUE` by default, informs if you
+want to keep only the markdown-compatible tags, and then will only
+display markdwown compatible buttons in the wysiwyg interface. If turned
+to FALSE, you’ll get more button, but when saved, the .Rmd will contain
+html tags.
 
 ### About
 
