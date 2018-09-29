@@ -11,7 +11,7 @@ link-citations: yes
 description: This books aims at giving guidelines for operating a backyard backend.
 
 ---
-# About
+# Index
 
 `{backyard}` is a shiny based back-end that provides a UI for easier collaboration on Bookdown projects.
 
