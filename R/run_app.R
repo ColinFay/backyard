@@ -14,11 +14,11 @@
 #'
 #' if (interactive()) {
 #'
-#'   run_app()
+#'   run_book()
 #'
 #' }
 #'
-run_app <- function(indexrmd = NA, home = ".",
+run_book <- function(indexrmd = NA, home = ".",
                     safe_mode = TRUE, markdown_only = TRUE,
                     port = 2811, enableBookmarking = NULL, ...) {
   opts <- list(...)

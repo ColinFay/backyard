@@ -41,13 +41,13 @@ few ideas:
 
 ### Launch
 
-`backyard::run_app()` (without any parameter filled) opens an invite box
-that can either be used for creating a new bookdown (point to the folder
-where you want your bookdown to be saved, and add a folder name), then
-the default Bookdown template is used, or to point to an Index.Rmd of a
-bookdown already present on the machine.
+`backyard::run_book()` (without any parameter filled) opens an invite
+box that can either be used for creating a new bookdown (point to the
+folder where you want your bookdown to be saved, and add a folder name),
+then the default Bookdown template is used, or to point to an Index.Rmd
+of a bookdown already present on the machine.
 
-You can pass to `backyard::run_app()` the location of the index.Rmd
+You can pass to `backyard::run_book()` the location of the index.Rmd
 (then the app is launched for this bookdown), or the location of your
 home (for the folder selection invite, default is `.`).
 
@@ -127,7 +127,7 @@ Here a minimalist Docker file that can launch a `{backyard}` backend:
     
     EXPOSE 2811
     
-    CMD R -e "backyard::run_app(host = '0.0.0.0', home = '/usr/home/bookdown')"
+    CMD R -e "backyard::run_book(host = '0.0.0.0', home = '/usr/home/bookdown')"
 
 > You can find this dockerfile in the inst/ folder of the package.
 
@@ -147,12 +147,12 @@ the same dir as the Dockerfile):
     
     EXPOSE 2811
     
-    CMD R -e "backyard::run_app(indexrmd = '/usr/bookdown/bookdown',host = '0.0.0.0')"
+    CMD R -e "backyard::run_book(indexrmd = '/usr/bookdown/bookdown',host = '0.0.0.0')"
 
 **Notes on Docker**
 
   - By default, `{backyard}` is deployed on port 2811. It can be changed
-    in `backyard::run_app`.
+    in `backyard::run_book`.
   - If you launch the app in a Docker container, be sure to use `host =
     '0.0.0.0'`
 
