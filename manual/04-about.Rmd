@@ -1,6 +1,5 @@
 # About
 
-This first page gives you a quick overview of the book. Nothing fancy here.
+This first page of the app gives you a quick overview of the book. Nothing fancy here.
 
- 
-
+The info are basically the list of chapters, and the Yaml from `index.Rmd` which are parsed and put in a list.

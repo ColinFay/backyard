@@ -23,7 +23,7 @@ run_book(indexrmd = NA, home = ".", safe_mode = TRUE,
 respect the setting from any previous calls to \code{enableBookmarking()}.
 See \code{\link{enableBookmarking}} for more information.}
 
-\item{...}{options to be passed to `shinyApp`, options param}
+\item{...}{options to be passed to `shinyApp` options param}
 }
 \description{
 run the Shiny Application

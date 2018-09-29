@@ -2,44 +2,44 @@
 
 ## Launch
 
-`backyard::run_app()` (without any parameter filled) opens an invite box that can either be used for 
+`backyard::run_book()` (without any parameter filled) opens an invite box that can either be used for:
+
 + creating a new bookdown (point to the folder where you want your bookdown to be saved, and add a folder name). If you choose this option, the default Bookdown template is used
+
 + pointing to an Index.Rmd of a bookdown already present on the machine
 
-You can pass to `backyard::run_app()` the location of the index.Rmd (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `.`). 
+You can pass to `backyard::run_book()` the **location of the index.Rmd** (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is `.`). 
 
-By default, the `safe_mode` parameter is set to `TRUE`. This mode creates, at launch time, a copy (in `{path}/backyard_copy`) of your current version of the bookdown folder. That way, if ever you do something wrong during your backyard session, you can still go back to the previous version.
+By default, the `safe_mode` parameter is set to `TRUE`. This mode creates, at launch time, a copy (in `{path}/backyard_copy-{time}`) of your current version of the bookdown folder. That way, **if ever you do something wrong during your backyard session, you can still go back to the previous version**.
 
 ## About
 
-This first page gives you a quick overview of the book. Nothing fancy here. 
+This first page gives you a quick overview of the book. 
 
 ## Chapters
 
-This tabs has 3 other tabs
+This tab has 2 other tabs:
 
-+ Chapter edit: edit a chapter in html with the WYSIWYG (What you see is what you get) editor. Don't forget to save when you're done. If you're more comfortable with markdown, you can also use the “update as Markdown” interface of this window.
++ **Chapter edit**: edit a chapter in html with the WYSIWYG (What you see is what you get) editor. **Don't forget to save when you're done**. If you're more comfortable with markdown, you can also use the “update as Markdown” interface of this window.
 
-+ Manage Chapter: Add, delete, rename, reorder chapters
++ **Manage Chapter**: Add, delete, rename, reorder chapters
 
 ### About code blocks in interactive mode
 
-Code blocks are, on purpose, not editable in Interactive mode. You should switch to Markdown mode if you want to edit these elements. 
+Code blocks are, on purpose, not editable in Interactive mode. You should switch to Markdown mode if you want to edit these elements. 
 
 ## Options
 
-The idea of this tab is that non-tech people don't want to enter too many technical details, hence they have “textual” content to see. If you want to dig into the tech, two tabs can be used to do that? 
+The idea of this tab is that non-tech people don't want to enter too many technical details, hence they have “textual” content to see. If you want to dig into the tech, two tabs can be used to do that.
 
-+ Global: edit some global options with a nice UI
++ **Global**: edit some global options with a friendly UI
 
-+ Edit options: change the options of Index.Rmd, _output.yml and _bookdown.yml just as if you were in any editor
++ **Edit options manually**: change the options of Index.Rmd, _output.yml and _bookdown.yml just as if you were in any editor
 
-+ Edit any file: open an editor for any file contained in same directory as the index.Rmd. 
++ **Edit any file**: open an editor for any file contained in same directory as the index.Rmd. ## Design
 
-## Design
+Two things can be edited in this tab:
 
-+ CSS: edit, create and delete CSS files
++ **CSS**: edit, create and delete CSS files
 
-+ Highlight: change the book syntax highlighting
-
-
++ **Highlight**: change the book syntax highlighting

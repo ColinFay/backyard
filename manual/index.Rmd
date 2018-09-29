@@ -13,7 +13,9 @@ description: This books aims at giving guidelines for operating a backyard backe
 ---
 # About
 
-`{backyard}` is a shiny based back-end that provides an UI for easier collaboration on Bookdown projects.
+`{backyard}` is a shiny based back-end that provides a UI for easier collaboration on Bookdown projects.
+
+The goal of `{backyard}` is to provide an easy to use interface, whether you are an R/Rmarkdown user or not.
 
 ## Installation
 
@@ -21,4 +23,9 @@ You can install the dev version of backyard with:
 
 ```{r eval = FALSE}
 remotes::install_github("ColinFay/backyard")
+
 ```
+
+## Disclaimer
+
+`{backyard}` is still at an experimental level and should be considered as such. Use cautiously.

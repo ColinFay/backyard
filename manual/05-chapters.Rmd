@@ -1,9 +1,29 @@
 # Chapters
 
-This tabs has 3 other tabs
+This tabs has 2 other tabs. 
 
-<ul>
-<li>Chapter edit: edit a chapter in html with the WYSIWYG (What you see is what you get) editor. Don't forget to save when you're done. If you're more comfortable with markdown, you can also use the “update as Markdown” interface of this window.</li>
-<li>Manage Chapter: Add, delete, rename chapters</li>
-<li>Reorder Chapter: reorder the chapter of the books with drag and drop</li>
-</ul>
+## Chapter edit
+
+### Interactive mode 
+
+Edit a chapter in html with the WYSIWYG (What you see is what you get) editor. This interface gives you a series of buttons that can be used to edit your content. 
+
+**Don’t forget to save when you’re done. **
+
+If you’re more comfortable with markdown, you can also use the “update as Markdown” interface of this window.
+
+#### About the code block in interactive mode
+
+The code blocks are, by design, uneditable from the interactive mode. This design choice was made for several reasons: 
+
++ Prevent users from putting html tags inside the code block
+
++ If you're comfortable enough writing code, you should be good using the markdown interface :) The first purpose of the interactive mode is to be used by non-tech users.
+
+## Manage Chapter
+
+In this tab, you can:
+
++ Add, delete & rename chapters.  
+
++ Reorder the chapter with a drag'n'drop interface

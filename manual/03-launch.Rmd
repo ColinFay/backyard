@@ -1,9 +1,27 @@
-#  Launch
+# Launch 
 
 ## Launching {backyard}
 
-`backyard::run_app()` (without any parameter filled) opens an invite box that can either be used for + creating a new bookdown: then you'll need to point to the folder where you want your bookdown to be saved, and add a folder name. In that case the default Bookdown template is used+ point to an Index.Rmd of a bookdown already present on the machine
+### Case 1: no parameter
 
-## Passing parameters
+`backyard::run_book()` (without any parameter filled) opens an invite box that can either be used for:
 
-You can pass parameters to `backyard::run_app()`:
++ **creating a new bookdown**: In that case, you'll need to point to the folder where you want your bookdown to be saved, and add a folder name. The default Bookdown template is used.
+
++ **point to an Index.Rmd of a bookdown** already there on the machine
+
+### Case 2: with parameters
+
+Here's an overview of the available parameters: 
+
++ `indexrmd` : point to an index.Rmd on the machine to work an already created book
+
++ `home`: what is the home of your project? To be used when you want to launch the invite to create a new book or to point to a file on the server. 
+
++ `safe_mode`: by default, this mode is one. Each time you launch an app, it copies the content to a folder called `backyard_copy`, with one copy by app launch. This allows to get back to a previous version of the book in case of mistake.
+
++ `markdown_only`: Do you want to run your app with only markdown markup? If yes, not all buttons will be shown, and when saved, no html tag will be kept. This mode is the one you might want if you want your bookdown to be cross-format. 
+
++ `port` the port on which the app will be run. Default is 2811. 
+
++ `...` options to be passed to `shinyApp` options param. If you plan on deploying on a server, you might want to set `host = 0.0.0.0` for example.

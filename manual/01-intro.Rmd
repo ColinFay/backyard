@@ -1,17 +1,23 @@
-# Introduction {#intro}
+# Introduction 
 
 ## Why {backyard}?
 
-The main idea is that, with a {backyard} backend, users can focus on writing and don’t have to know anything about Markdown and/or about R &amp;amp; {bookdown} to get involved in the writing of a bookdown. This would facilitate collaboration between those who use R and those who don’t. Once deployed, a {backyard} backend is easy to access and use, and is suitable for tech/non-tech people. 
+The main idea is that, with a `{backyard}` backend, users can focus on writing and don’t have to know anything about Markdown and/or about R  & `{bookdown}` to get involved in a bookdown project. 
+
+This would **facilitate collaboration between those who use R and those who don’t**. Once deployed, a `{backyard}` backend is easy to access and use, and is suitable for tech/non-tech people. 
 
 ## When would you need {backyard}
 
-There are many situations where you might need `{backyard}`. Here are few ideas: 
+There are many situations where you might need `{backyard}`. Here are few ideas: 
 
-+ You want your partner/parents/friends to proof-read your bookdown, but they don’t know anything about R and/or markdown. Let them re-read your content with a {backyard} backend. 
-+ You are collaborating on a book with someone who is not an R aficionados. 
-+ You’re a group of students doing group work at your university, and need a way to easily collaborate on the content. 
-+ You’re more comfortable with using a visual backend. 
++ You want your partner/parents/friends to proof-read your bookdown, but they don’t know anything about R and/or markdown. Let them re-read your content with a {backyard} backend. 
+
++ You are collaborating on a book with someone who is not an R aficionados. 
+
++ You’re a group of students doing group work at your university, and need a way to easily collaborate on the content. 
+
++ You’re more comfortable with using a visual backend. 
+
 + You want to provide a central server for writing books or manual in your company
-…
 
+…

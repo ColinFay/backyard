@@ -5,7 +5,7 @@
 #' @param home where should the directory/file selector widget start from. Default is "."
 #' @param safe_mode wether to run on safe mode or not
 #' @param port port to run the Shiny app on, default is 2811.
-#' @param ... options to be passed to `shinyApp`, options param
+#' @param ... options to be passed to `shinyApp` options param
 #'
 #' @export
 #' @importFrom shiny shinyApp
