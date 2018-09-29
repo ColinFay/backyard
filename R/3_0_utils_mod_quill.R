@@ -40,14 +40,16 @@ quill_rmd <- function(input, output, session, lequel, r, parentns) {
             actionButton(inputId = "underline", label = NULL, icon = icon("underline"), "data-command" = "underline", "data-tooltip" = "Underline"),
             actionButton(inputId = "strikeThrough", label = NULL, icon = icon("strikethrough"), "data-command" = "strikeThrough", "data-tooltip" = "Strike")
           ),
-          tags$span(
-            class = "inside",
-            actionButton(inputId = "indent", label = NULL, icon = icon("indent"), "data-command" = "indent", "data-tooltip" = "Indent"),
-            actionButton(inputId = "outdent", label = NULL, icon = icon("outdent"), "data-command" = "outdent", "data-tooltip" = "Outdent"),
-            actionButton(inputId = "justifyLeft", label = NULL, icon = icon("align-left"), "data-command" = "justifyLeft", "data-tooltip" = "justify Left"),
-            actionButton(inputId = "justifyCenter", label = NULL, icon = icon("align-center"), "data-command" = "justifyCenter", "data-tooltip" = "Center"),
-            actionButton(inputId = "justifyRight", label = NULL, icon = icon("align-right"), "data-command" = "justifyRight", "data-tooltip" = "justify Right")
-          ),
+          if (! getOption("bkyrdmarkdown")){
+            tags$span(
+              class = "inside",
+              actionButton(inputId = "indent", label = NULL, icon = icon("indent"), "data-command" = "indent", "data-tooltip" = "Indent"),
+              actionButton(inputId = "outdent", label = NULL, icon = icon("outdent"), "data-command" = "outdent", "data-tooltip" = "Outdent"),
+              actionButton(inputId = "justifyLeft", label = NULL, icon = icon("align-left"), "data-command" = "justifyLeft", "data-tooltip" = "justify Left"),
+              actionButton(inputId = "justifyCenter", label = NULL, icon = icon("align-center"), "data-command" = "justifyCenter", "data-tooltip" = "Center"),
+              actionButton(inputId = "justifyRight", label = NULL, icon = icon("align-right"), "data-command" = "justifyRight", "data-tooltip" = "justify Right")
+            )
+          },
           tags$span(
             class = "inside",
             actionButton(inputId = "insertUnorderedList", label = NULL, icon = icon("list-ul"), "data-command" = "insertUnorderedList", "data-tooltip" = "Insert an unordered list"),
