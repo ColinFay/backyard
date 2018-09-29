@@ -4,7 +4,7 @@ html_to_markdown <- function(res){
   res <- textutils::HTMLdecode(res)
   res <- gsub("<script>.*</script>", "", res)
   res <- gsub("<pre><code>", "```\n", res)
-  res <- gsub("</*p>", "", res)
+  res <- gsub("</*p>", "\n\n", res)
   res <- gsub("&nbsp;", " ", res)
   # parse lists
   res <- gsub("</li>", "", res)
@@ -30,6 +30,7 @@ html_to_markdown <- function(res){
   res <- gsub("</*b>", "**", res)
   res <- gsub("</*em>", "*", res)
   res <- gsub("</*i>", "*", res)
+  res <- gsub("</*del>", "~~", res)
   res <- gsub('<a href="([^"]*)">([^>]*)<\\/a>', "[\\2](\\1)", res)
   res <- gsub("<h1>", "# ", res)
   res <- gsub("</h1>", "\n\n", res)
@@ -52,8 +53,18 @@ html_to_markdown <- function(res){
   res <- gsub("</blockquote>", "", res)
   res <- gsub("<blockquote>(\n|<p>)*", "> ", res)
   res <- gsub(" {2,}", "", res)
-  res <- gsub("<[^>]*>", "\n", res)
+  if (getOption("bkyrdmarkdown")){
+    res <- gsub("<[^>]*>", "\n", res)
+  } else {
+    res <- gsub("<pre[^>]*>", "\n", res)
+    res <- gsub("</pre>", "\n", res)
+  }
+  res <- gsub("<hr[^>]*>", "---", res)
+  res <- gsub("</*sub[^>]*>", "~", res)
+  res <- gsub("<sup[^>]*>", "^", res)
+  res <- gsub("</sup>", "", res)
   res <- HTML(stringr::str_trim(res))
   res <- gsub("\n{2,}", "\n\n", res)
+  res <- gsub("+ \n*\n*", " ", res)
   res
 }
