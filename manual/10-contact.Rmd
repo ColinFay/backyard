@@ -1,7 +1,10 @@
-# Github
+# Contact
 
-+ GitHub: [https://github.com/ColinFay/backyard](https://github.com/ColinFay/backyard) + Issues: [https://github.com/ColinFay/backyard/issues](https://github.com/ColinFay/backyard/issues)
+## Github
 
-Mail
++ GitHub: [https://github.com/ColinFay/backyard](https://github.com/ColinFay/backyard) 
++ Issues: [https://github.com/ColinFay/backyard/issues](https://github.com/ColinFay/backyard/issues)
+
+## Mail
 
 [contact@colinfay.me](mailto:contact@colinfay.me)

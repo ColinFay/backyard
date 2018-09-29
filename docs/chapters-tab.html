@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="render-tab.html">
-<link rel="next" href="contact.html">
+<link rel="prev" href="about-tab.html">
+<link rel="next" href="options-tab.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -191,54 +191,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="deploy" class="section level1">
-<h1><span class="header-section-number">Chapter 10</span> Deploy</h1>
-<p>The best way to collaborate with this is to deploy this app on a server.</p>
-<p>Here a minimalist Docker file that can launch a <code>{backyard}</code> backend:</p>
-<pre><code>FROM rocker/tidyverse
-
-MAINTAINER Colin FAY &quot;contact@colinfay.me&quot;
-
-RUN R -e &quot;install.packages(&#39;remotes&#39;, repos = &#39;https://cran.rstudio.com/&#39;)&quot;
-RUN R -e &quot;remotes::install_github(&#39;ColinFay/backyard&#39;)&quot;
-
-# Create a folder just for bookdowns
-RUN mkdir /usr/home/bookdown
-
-EXPOSE 2811
-
-CMD R -e &quot;backyard::run_book(host = &#39;0.0.0.0&#39;, home = &#39;/usr/home/bookdown&#39;)&quot;
-</code></pre>
-<p>If you only wants to share one bookdown (assuming the boookdown is in the same dir as the Dockerfile):</p>
-<pre><code>FROM rocker/tidyverse
-
-MAINTAINER Colin FAY &quot;contact@colinfay.me&quot;
-
-RUN R -e &quot;install.packages(&#39;remotes&#39;, repos = &#39;https://cran.rstudio.com/&#39;)&quot;
-RUN R -e &quot;remotes::install_github(&#39;ColinFay/backyard&#39;)&quot;
-
-RUN mkdir /usr/local/bookdown
-
-COPY bookdown /usr/bookdown/bookdown
-
-EXPOSE 2811
-
-CMD R -e &quot;backyard:: run_book(indexrmd = &#39;/usr/bookdown/bookdown/index/Rmd&#39;,host = &#39;0.0.0.0&#39;)&quot;
-</code></pre>
-<p><strong>Notes on Docker</strong> </p>
+<div id="chapters-tab" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Chapters  tab</h1>
+<p>This tabs has 2 other tabs. </p>
+<div id="chapter-edit" class="section level2">
+<h2><span class="header-section-number">6.1</span> Chapter edit</h2>
+<div id="interactive-mode" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> Interactive mode </h3>
+<p>Edit a chapter in html with the WYSIWYG (What you see is what you get) editor. This interface gives you a series of buttons that can be used to edit your content. </p>
+<p><strong>Don’t forget to save when you’re done. </strong></p>
+<p>If you’re more comfortable with markdown, you can also use the “update as Markdown” interface of this window.</p>
+<div id="about-the-code-block-in-interactive-mode" class="section level4">
+<h4><span class="header-section-number">6.1.1.1</span> About the code block in interactive mode</h4>
+<p>The code blocks are, by design, uneditable from the interactive mode. This design choice was made for several reasons: </p>
 <ul>
-<li><p>By default, <code>{backyard}</code> is deployed on port 2811. It can be changed in <code>backyard::run_book</code>.</p></li>
-<li><p>If you launch the app in a Docker container, be sure to use <code>host = '0.0.0.0'</code></p></li>
+<li><p>Prevent users from putting html tags inside the code block</p></li>
+<li><p>If you’re comfortable enough writing code, you should be good using the markdown interface :) The first purpose of the interactive mode is to be used by non-tech users.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="manage-chapter" class="section level2">
+<h2><span class="header-section-number">6.2</span> Manage Chapter</h2>
+<p>In this tab, you can:</p>
+<ul>
+<li><p>Add, delete &amp; rename chapters.  </p></li>
+<li><p>Reorder the chapter with a drag’n’drop interface</p></li>
 </ul>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="render-tab.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="contact.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="about-tab.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="options-tab.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

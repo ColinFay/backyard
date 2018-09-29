@@ -1,4 +1,4 @@
-# About
+# About tab
 
 This first page of the app gives you a quick overview of the book. Nothing fancy here.
 

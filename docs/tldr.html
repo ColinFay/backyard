@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="render-tab.html">
-<link rel="next" href="contact.html">
+<link rel="prev" href="introduction.html">
+<link rel="next" href="overview.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -191,54 +191,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="deploy" class="section level1">
-<h1><span class="header-section-number">Chapter 10</span> Deploy</h1>
-<p>The best way to collaborate with this is to deploy this app on a server.</p>
-<p>Here a minimalist Docker file that can launch a <code>{backyard}</code> backend:</p>
-<pre><code>FROM rocker/tidyverse
-
-MAINTAINER Colin FAY &quot;contact@colinfay.me&quot;
-
-RUN R -e &quot;install.packages(&#39;remotes&#39;, repos = &#39;https://cran.rstudio.com/&#39;)&quot;
-RUN R -e &quot;remotes::install_github(&#39;ColinFay/backyard&#39;)&quot;
-
-# Create a folder just for bookdowns
-RUN mkdir /usr/home/bookdown
-
-EXPOSE 2811
-
-CMD R -e &quot;backyard::run_book(host = &#39;0.0.0.0&#39;, home = &#39;/usr/home/bookdown&#39;)&quot;
-</code></pre>
-<p>If you only wants to share one bookdown (assuming the boookdown is in the same dir as the Dockerfile):</p>
-<pre><code>FROM rocker/tidyverse
-
-MAINTAINER Colin FAY &quot;contact@colinfay.me&quot;
-
-RUN R -e &quot;install.packages(&#39;remotes&#39;, repos = &#39;https://cran.rstudio.com/&#39;)&quot;
-RUN R -e &quot;remotes::install_github(&#39;ColinFay/backyard&#39;)&quot;
-
-RUN mkdir /usr/local/bookdown
-
-COPY bookdown /usr/bookdown/bookdown
-
-EXPOSE 2811
-
-CMD R -e &quot;backyard:: run_book(indexrmd = &#39;/usr/bookdown/bookdown/index/Rmd&#39;,host = &#39;0.0.0.0&#39;)&quot;
-</code></pre>
-<p><strong>Notes on Docker</strong> </p>
+<div id="tldr" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> TL;DR </h1>
+<div id="why-backyard" class="section level2">
+<h2><span class="header-section-number">2.1</span> Why {backyard}?</h2>
+<p>The main idea is that, with a <code>{backyard}</code> backend, users can focus on writing and don’t have to know anything about Markdown and/or about R  &amp; <code>{bookdown}</code> to get involved in a bookdown project. </p>
+<p>This would <strong>facilitate collaboration between those who use R and those who don’t</strong>. Once deployed, a <code>{backyard}</code> backend is easy to access and use, and is suitable for tech/non-tech people. </p>
+</div>
+<div id="when-would-you-need-backyard" class="section level2">
+<h2><span class="header-section-number">2.2</span> When would you need {backyard}</h2>
+<p>There are many situations where you might need <code>{backyard}</code>. Here are few ideas: </p>
 <ul>
-<li><p>By default, <code>{backyard}</code> is deployed on port 2811. It can be changed in <code>backyard::run_book</code>.</p></li>
-<li><p>If you launch the app in a Docker container, be sure to use <code>host = '0.0.0.0'</code></p></li>
+<li><p>You want your partner/parents/friends to proof-read your bookdown, but they don’t know anything about R and/or markdown. Let them re-read your content with a {backyard} backend. </p></li>
+<li><p>You are collaborating on a book with someone who is not an R aficionados. </p></li>
+<li><p>You’re a group of students doing group work at your university, and need a way to easily collaborate on the content. </p></li>
+<li><p>You’re more comfortable with using a visual backend. </p></li>
+<li><p>You want to provide a central server for writing books or manual in your company</p></li>
 </ul>
+<p>…</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="render-tab.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="contact.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="overview.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

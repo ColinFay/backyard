@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="render-tab.html">
-<link rel="next" href="contact.html">
+<link rel="prev" href="tldr.html">
+<link rel="next" href="launch-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -191,54 +191,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="deploy" class="section level1">
-<h1><span class="header-section-number">Chapter 10</span> Deploy</h1>
-<p>The best way to collaborate with this is to deploy this app on a server.</p>
-<p>Here a minimalist Docker file that can launch a <code>{backyard}</code> backend:</p>
-<pre><code>FROM rocker/tidyverse
-
-MAINTAINER Colin FAY &quot;contact@colinfay.me&quot;
-
-RUN R -e &quot;install.packages(&#39;remotes&#39;, repos = &#39;https://cran.rstudio.com/&#39;)&quot;
-RUN R -e &quot;remotes::install_github(&#39;ColinFay/backyard&#39;)&quot;
-
-# Create a folder just for bookdowns
-RUN mkdir /usr/home/bookdown
-
-EXPOSE 2811
-
-CMD R -e &quot;backyard::run_book(host = &#39;0.0.0.0&#39;, home = &#39;/usr/home/bookdown&#39;)&quot;
-</code></pre>
-<p>If you only wants to share one bookdown (assuming the boookdown is in the same dir as the Dockerfile):</p>
-<pre><code>FROM rocker/tidyverse
-
-MAINTAINER Colin FAY &quot;contact@colinfay.me&quot;
-
-RUN R -e &quot;install.packages(&#39;remotes&#39;, repos = &#39;https://cran.rstudio.com/&#39;)&quot;
-RUN R -e &quot;remotes::install_github(&#39;ColinFay/backyard&#39;)&quot;
-
-RUN mkdir /usr/local/bookdown
-
-COPY bookdown /usr/bookdown/bookdown
-
-EXPOSE 2811
-
-CMD R -e &quot;backyard:: run_book(indexrmd = &#39;/usr/bookdown/bookdown/index/Rmd&#39;,host = &#39;0.0.0.0&#39;)&quot;
-</code></pre>
-<p><strong>Notes on Docker</strong> </p>
+<div id="overview" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Overview</h1>
+<p><strong>How is a <code>{backyard}</code> backend organized?</strong></p>
+<div id="launch" class="section level2">
+<h2><span class="header-section-number">3.1</span> Launch</h2>
+<p><code>backyard::run_book()</code> (without any parameter filled) opens an invite box that can either be used for:</p>
 <ul>
-<li><p>By default, <code>{backyard}</code> is deployed on port 2811. It can be changed in <code>backyard::run_book</code>.</p></li>
-<li><p>If you launch the app in a Docker container, be sure to use <code>host = '0.0.0.0'</code></p></li>
+<li><p>creating a new bookdown (point to the folder where you want your bookdown to be saved, and add a folder name). If you choose this option, the default Bookdown template is used</p></li>
+<li><p>pointing to an Index.Rmd of a bookdown already present on the machine</p></li>
+</ul>
+<p>You can pass to <code>backyard::run_book()</code> the <strong>location of the index.Rmd</strong> (then the app is launched for this bookdown), or the location of your home (for the folder selection invite, default is <code>.</code>). </p>
+<p>By default, the <code>safe_mode</code> parameter is set to <code>TRUE</code>. This mode creates, at launch time, a copy (in <code>{path}/backyard_copy-{time}</code>) of your current version of the bookdown folder. That way, <strong>if ever you do something wrong during your backyard session, you can still go back to the previous version</strong>.</p>
+</div>
+<div id="about" class="section level2">
+<h2><span class="header-section-number">3.2</span> About</h2>
+<p>This first page gives you a quick overview of the book. </p>
+</div>
+<div id="chapters" class="section level2">
+<h2><span class="header-section-number">3.3</span> Chapters</h2>
+<p>This tab has 2 other tabs:</p>
+<ul>
+<li><p><strong>Chapter edit</strong>: edit a chapter in html with the WYSIWYG (What you see is what you get) editor. <strong>Don’t forget to save when you’re done</strong>. If you’re more comfortable with markdown, you can also use the “update as Markdown” interface of this window.</p></li>
+<li><p><strong>Manage Chapter</strong>: Add, delete, rename, reorder chapters</p></li>
+</ul>
+<div id="about-code-blocks-in-interactive-mode" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> About code blocks in interactive mode</h3>
+<p>Code blocks are, on purpose, not editable in Interactive mode. You should switch to Markdown mode if you want to edit these elements. </p>
+</div>
+</div>
+<div id="options" class="section level2">
+<h2><span class="header-section-number">3.4</span> Options</h2>
+<p>The idea of this tab is that non-tech people don’t want to enter too many technical details, hence they have “textual” content to see. If you want to dig into the tech, two tabs can be used to do that.</p>
+<ul>
+<li><p><strong>Global</strong>: edit some global options with a friendly UI</p></li>
+<li><p><strong>Edit options manually</strong>: change the options of Index.Rmd, _output.yml and _bookdown.yml just as if you were in any editor</p></li>
+<li><p><strong>Edit any file</strong>: open an editor for any file contained in same directory as the index.Rmd. ## Design</p></li>
+</ul>
+<p>Two things can be edited in this tab:</p>
+<ul>
+<li><p><strong>CSS</strong>: edit, create and delete CSS files</p></li>
+<li><p><strong>Highlight</strong>: change the book syntax highlighting</p></li>
 </ul>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="render-tab.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="contact.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="tldr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="launch-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

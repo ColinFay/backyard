@@ -1,4 +1,6 @@
-# How is a `{backyard}` backend organized?
+# Overview
+
+**How is a `{backyard}` backend organized?**
 
 ## Launch
 

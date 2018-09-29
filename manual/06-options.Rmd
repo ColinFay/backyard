@@ -1,4 +1,4 @@
-# Options
+# Options tab
 
 The idea of this tab is that non-tech people don't want to enter too many technical details, hence they have “textual” content to see in the first tab. 
 
