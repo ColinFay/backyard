@@ -11,8 +11,6 @@ Description: Make Bookdown collaboration just a little bit
 License: MIT + file LICENSE
 URL: https://github.com/ColinFay/backyard
 BugReports: https://github.com/ColinFay/backyard/issues
-Depends: 
-    R (>= 3.4.3)
 Imports: 
     bookdown,
     DT,
