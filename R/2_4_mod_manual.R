@@ -5,11 +5,16 @@ mod_yml_manuallyui <- function(id){
     column(
       12,
       h2("Edit Options"),
-      selectInput(ns("select_yml"), label = "Select the Options file to edit", choices = letters, width = "100%"),
+      selectInput(
+        ns("select_yml"),
+        label = "Select the Options file to edit",
+        choices = letters,
+        width = "100%"
+      ),
       uiOutput(ns("ymlui")),
-    tags$br(),
-    actionButton(ns("save"), "Save"),
-    tags$br()
+      tags$br(),
+      actionButton(ns("save"), "Save"),
+      tags$br()
     ),
 
     tags$script(paste0('
