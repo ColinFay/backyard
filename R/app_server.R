@@ -67,7 +67,7 @@ app_server <- function(input, output, session) {
     if (r$safe_mode & ! is.na(r$index$path) & is_index(input$files) ){
       path <- dirname(r$index$path)
       safe_dir <- glue("{dirname(path)}/backyard_copy/copy-{gsub(' ', '-', Sys.time())}")
-      dir.create(safe_dir, showWarnings = FALSE)
+      dir.create(safe_dir, showWarnings = FALSE, recursive = TRUE)
       file.copy(from = path, safe_dir, recursive = TRUE)
     }
   }, once = TRUE)
