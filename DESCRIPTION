@@ -1,6 +1,6 @@
 Package: backyard
 Title: A Web App for Easier Bookdown Collaboration
-Version: 0.0.0.9000
+Version: 0.0.0.9500
 Authors@R: 
     person(given = "Colin",
            family = "Fay",
@@ -34,3 +34,30 @@ VignetteBuilder:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
+Collate: 
+    '0_0_mod_first_page.R'
+    '1_0_mod_about.R'
+    '2_5_mod_file.R'
+    '2_4_mod_manually.R'
+    '2_3_mod_output_options.R'
+    '2_2_mod_bookdown_options.R'
+    '2_1_mod_globaloptions.R'
+    '2_0_mod_globals.R'
+    '3_0_mod_chapter.R'
+    '3_0_utils_mod_editable_rmd.R'
+    '3_0_utils_mod_quill.R'
+    '3_3_mod_reorderui.R'
+    '4_0_mod_design.R'
+    '4_1_mod_theming.R'
+    '4_2_mod_include.R'
+    '4_3_mod_css.R'
+    '4_4_mod_syntax.R'
+    '5_0_mod_render.R'
+    'app_prod.R'
+    'app_server.R'
+    'app_ui.R'
+    'html_to_markdown.R'
+    'onload.R'
+    'run_app.R'
+    'utils.R'
+    'zzz.R'
