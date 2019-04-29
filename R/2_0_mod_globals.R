@@ -1,5 +1,4 @@
 #' @importFrom shiny NS tagList tabsetPanel tabPanel
-#' @include 2_1_mod_globaloptions.R 2_2_mod_bookdown_options.R 2_3_mod_output_options.R 2_4_mod_manual.R 2_5_mod_file.R
 mod_globalsui <- function(id){
   ns <- NS(id)
   tagList(
