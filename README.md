@@ -106,6 +106,7 @@ want to dig into the tech, two tabs can be used to do that?
 You can install the dev version of backyard with:
 
 ``` r
+# install.packages("remotes")
 remotes::install_github("ColinFay/backyard")
 ```
 
